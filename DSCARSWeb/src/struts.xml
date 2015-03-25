@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="false" />
+
+	<package name="default" extends="struts-default" namespace="/">	    
+		<action name="addUser" class="edu.gatech.omscs.dscars.action.UserAction" method="add">
+			<result name="success" type="chain">index</result>
+			<result name="input" type="chain">index</result>
+		</action>
+
+		<action name="deleteUser" class="edu.gatech.omscs.dscars.action.UserAction" method="delete">
+			<result name="success" type="chain">index</result>
+		</action>
+
+		<action name="listUsers" class="edu.gatech.omscs.dscars.action.UserAction" method="list">
+			<result name="success" type="chain">index</result>
+		</action>
+		
+		<action name="index" class="edu.gatech.omscs.dscars.action.UserAction">
+			<result name="success">index.jsp</result>
+		</action>
+	</package>
+</struts>
