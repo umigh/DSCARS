@@ -1,42 +1,31 @@
 package edu.gatech.omscs.dscars.test;
 // default package
-// Generated Mar 27, 2015 4:54:22 PM by Hibernate Tools 4.0.0
+// Generated Mar 28, 2015 1:24:52 PM by Hibernate Tools 4.0.0
 
-import java.util.List;
-import javax.naming.InitialContext;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.LockMode;
-import org.hibernate.SessionFactory;
-import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class StudentCourseHistory.
  * @see .StudentCourseHistory
  * @author Hibernate Tools
  */
+@Stateless
 public class StudentCourseHistoryHome {
 
 	private static final Log log = LogFactory
 			.getLog(StudentCourseHistoryHome.class);
 
-	private final SessionFactory sessionFactory = getSessionFactory();
-
-	protected SessionFactory getSessionFactory() {
-		try {
-			return (SessionFactory) new InitialContext()
-					.lookup("SessionFactory");
-		} catch (Exception e) {
-			log.error("Could not locate SessionFactory in JNDI", e);
-			throw new IllegalStateException(
-					"Could not locate SessionFactory in JNDI");
-		}
-	}
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	public void persist(StudentCourseHistory transientInstance) {
 		log.debug("persisting StudentCourseHistory instance");
 		try {
-			sessionFactory.getCurrentSession().persist(transientInstance);
+			entityManager.persist(transientInstance);
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
@@ -44,35 +33,13 @@ public class StudentCourseHistoryHome {
 		}
 	}
 
-	public void attachDirty(StudentCourseHistory instance) {
-		log.debug("attaching dirty StudentCourseHistory instance");
+	public void remove(StudentCourseHistory persistentInstance) {
+		log.debug("removing StudentCourseHistory instance");
 		try {
-			sessionFactory.getCurrentSession().saveOrUpdate(instance);
-			log.debug("attach successful");
+			entityManager.remove(persistentInstance);
+			log.debug("remove successful");
 		} catch (RuntimeException re) {
-			log.error("attach failed", re);
-			throw re;
-		}
-	}
-
-	public void attachClean(StudentCourseHistory instance) {
-		log.debug("attaching clean StudentCourseHistory instance");
-		try {
-			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
-			log.debug("attach successful");
-		} catch (RuntimeException re) {
-			log.error("attach failed", re);
-			throw re;
-		}
-	}
-
-	public void delete(StudentCourseHistory persistentInstance) {
-		log.debug("deleting StudentCourseHistory instance");
-		try {
-			sessionFactory.getCurrentSession().delete(persistentInstance);
-			log.debug("delete successful");
-		} catch (RuntimeException re) {
-			log.error("delete failed", re);
+			log.error("remove failed", re);
 			throw re;
 		}
 	}
@@ -80,8 +47,7 @@ public class StudentCourseHistoryHome {
 	public StudentCourseHistory merge(StudentCourseHistory detachedInstance) {
 		log.debug("merging StudentCourseHistory instance");
 		try {
-			StudentCourseHistory result = (StudentCourseHistory) sessionFactory
-					.getCurrentSession().merge(detachedInstance);
+			StudentCourseHistory result = entityManager.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -90,35 +56,15 @@ public class StudentCourseHistoryHome {
 		}
 	}
 
-	public StudentCourseHistory findById(int id) {
+	public StudentCourseHistory findById(Integer id) {
 		log.debug("getting StudentCourseHistory instance with id: " + id);
 		try {
-			StudentCourseHistory instance = (StudentCourseHistory) sessionFactory
-					.getCurrentSession().get("StudentCourseHistory", id);
-			if (instance == null) {
-				log.debug("get successful, no instance found");
-			} else {
-				log.debug("get successful, instance found");
-			}
+			StudentCourseHistory instance = entityManager.find(
+					StudentCourseHistory.class, id);
+			log.debug("get successful");
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
-			throw re;
-		}
-	}
-
-	public List<StudentCourseHistory> findByExample(
-			StudentCourseHistory instance) {
-		log.debug("finding StudentCourseHistory instance by example");
-		try {
-			List<StudentCourseHistory> results = (List<StudentCourseHistory>) sessionFactory
-					.getCurrentSession().createCriteria("StudentCourseHistory")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
-			return results;
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
 			throw re;
 		}
 	}
