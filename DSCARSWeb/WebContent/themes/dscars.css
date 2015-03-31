@@ -1,17 +1,4 @@
-		body, input{
-			font-family: Calibri, Arial;
-		}
-		table {
-			border-collapse: separate;
-    		border-spacing: 10px 10px;
-			
-		}
-		th {
-			height: 40px;
-			background-color: #ffee55;
-		}
-
-	body{
+body{
 		font: 62.5% "Trebuchet MS", sans-serif;
 		margin: 50px;
 	}
@@ -52,10 +39,3 @@
 	select {
 		width: 200px;
 	}
-	
-	.header {
-    background-color:black;
-    color:white;
-    text-align:center;
-    padding:5px;
-}

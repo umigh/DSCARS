@@ -5,9 +5,9 @@
  <session-factory name="">
   <!-- Database connection settings -->
   <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-  <property name="connection.url">jdbc:mysql://54.148.226.98:3306/DSCARS</property>
+  <property name="connection.url">jdbc:mysql://localhost:3306/DSCARS</property>
   <property name="connection.username">root</property>
-  <property name="connection.password">p!nkfl0yd</property>
+  <property name="connection.password"></property>
   <!-- JDBC connection pool (use the built-in) -->
   <property name="connection.pool_size">1</property>
   <!-- SQL dialect -->
@@ -21,5 +21,9 @@
   <!-- Drop and re-create the database schema on startup -->
   <property name="hbm2ddl.auto">update</property>
   <mapping class="edu.gatech.omscs.dscars.model.User"/>
+  <mapping class="edu.gatech.omscs.dscars.model.Course"/>
+  <mapping class="edu.gatech.omscs.dscars.model.Program"/>
+  <mapping class="edu.gatech.omscs.dscars.model.Student"/>
+  <mapping class="edu.gatech.omscs.dscars.model.StudentPreference"/>
  </session-factory>
 </hibernate-configuration>
