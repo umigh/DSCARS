@@ -1,11 +1,10 @@
 package edu.gatech.omscs.dscars.action;
 
-import edu.gatech.omscs.dscars.dao.StudentPreferenceDao;
-import edu.gatech.omscs.dscars.model.StudentPreference;
 
 
 public class StudentPreferenceAction extends SelectAction {
 	private static final long serialVersionUID = 9149826260758390091L;
+	/*
 	StudentPreference studentPreference;
 
 	public StudentPreferenceAction() {
@@ -62,5 +61,6 @@ public class StudentPreferenceAction extends SelectAction {
 	
 	public void validateForm() {
 	}
+	*/
 
 }

@@ -44,7 +44,7 @@
             list="courses"
             name="studentPreference.firstPreference.courseId"
             listKey="courseId"
-            listValue='subject+course+" "+section'
+            listValue='courseName'
             emptyOption="false"
             headerKey="-1"
             headerValue="Select Course"/>
@@ -54,7 +54,7 @@
             list="courses"
             name="studentPreference.secondPreference.courseId"
             listKey="courseId"
-            listValue='subject+course+" "+section'
+            listValue='courseName'
             emptyOption="false"
             headerKey="-1"
             headerValue="Select Course"/>
@@ -64,7 +64,7 @@
             list="courses"
             name="studentPreference.thirdPreference.courseId"
             listKey="courseId"
-            listValue='subject+course+" "+section'
+            listValue='courseName'
             emptyOption="false"
             headerKey="-1"
             headerValue="Select Course"/>
@@ -74,7 +74,7 @@
             list="courses"
             name="studentPreference.fourthPreference.courseId"
             listKey="courseId"
-            listValue='subject+course+" "+section'
+            listValue='courseName'
             emptyOption="false"
             headerKey="-1"
             headerValue="Select Course"/>

@@ -13,7 +13,7 @@ import edu.gatech.omscs.dscars.model.User;
 public class SecurityAction extends ActionSupport {
 
 	private static final long serialVersionUID = 9149826260758390091L;
-	private String userId;
+	private String userName;
 	private String password;
 
 	UserDao userDao=null;
@@ -29,8 +29,8 @@ public class SecurityAction extends ActionSupport {
 	public String authenticate() {
 		try {
 			validateForm();
-			User user=userDao.getUser(userId);
-			if(userId!=null && password!=null && user!=null && userId.equals(user.getUserId()) && password.equals(user.getPassword())) {
+			User user=userDao.getUserByUserName(userName);
+			if(userName!=null && password!=null && user!=null && userName.equals(user.getUserName()) && password.equals(user.getPasswordHash())) {
 				Map session = ActionContext.getContext().getSession();
 				session.put("user",user);
 				session.put("lastLoginDate", user.getLastLoginDate());
@@ -78,12 +78,12 @@ public class SecurityAction extends ActionSupport {
 		return SUCCESS; 
 	}
 	
-	public String getUserId() {
-		return userId;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -95,8 +95,8 @@ public class SecurityAction extends ActionSupport {
 	}
 	
 	public void validateForm() {
-		if(userId==null || "".equals(userId)) {
-			addActionError("User Id is required!");
+		if(userName==null || "".equals(userName)) {
+			addActionError("Username is required!");
 		}
 		if(password==null || "".equals(password)) {
 			addActionError("Password is required!");

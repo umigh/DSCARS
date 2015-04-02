@@ -61,12 +61,12 @@ public class UserDao extends HibernateUtil {
 		return users;
 	}
 	
-	public User getUser(String userId) {
+	public User getUserByUserName(String userName) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();/*lets hope an id of 1 exists!*/
-		String queryString = "from User where userId = :userId";
+		String queryString = "from User where userName = :userName";
 		Query query = session.createQuery(queryString);
-		query.setString("userId", userId);
+		query.setString("userName", userName);
 		Object queryResult = query.uniqueResult();
 		User user = (User)queryResult;
 		session.getTransaction().commit();
