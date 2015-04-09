@@ -10,19 +10,31 @@
 	<package name="default" extends="struts-default" namespace="/">	  
 	    <action name="login" class="edu.gatech.omscs.dscars.action.SecurityAction"  method="authenticate">
 			<result name="studentPreference" type="redirectAction">
-        		<param name="actionName">studentPreference</param>
+        		<param name="actionName">pch</param>
     		</result>
-			<result name="admin">admin.jsp</result>
+    		<result name="admin" type="redirectAction">
+        		<param name="actionName">admin</param>
+    		</result>
 			<result name="professor">professor.jsp</result>
 			<result name="TA">TA.jsp</result>
 			<result name="error">login.jsp</result>
 			<result name="success" type="chain">index</result>
 		</action>
 		  
-	   <action name="studentPreference" class="edu.gatech.omscs.dscars.action.StudentPreferenceAction"  method="execute">
-			<result name="success">student.jsp</result>
-			<result name="error">student.jsp</result>
-			<result name="input">student.jsp</result>
+	   <action name="pch" class="edu.gatech.omscs.dscars.action.PchAction"  method="execute">
+			<result name="success">pch.jsp</result>
+			<result name="error">pch.jsp</result>
+			<result name="input">pch.jsp</result>
+		</action>
+		
+	   	<action name="admin" class="edu.gatech.omscs.dscars.action.AdminAction"  method="execute">
+			<result name="success">admin.jsp</result>
+			<result name="error">admin.jsp</result>
+			<result name="input">admin.jsp</result>
+		</action>
+		
+	   	<action name="courseAdmin" class="edu.gatech.omscs.dscars.action.AdminAction"  method="courseAdmin">
+			<result name="success">course_admin.jsp</result>
 		</action>
 		
 	  	<action name="logoff" class="edu.gatech.omscs.dscars.action.SecurityAction"  method="logoff">

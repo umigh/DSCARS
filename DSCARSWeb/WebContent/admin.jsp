@@ -4,20 +4,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>DSCARS</title>
+  <title>Dynamic Student Course Assignment</title>
   <link rel="stylesheet" href="themes/jquery-ui.css">
   <link href="themes/dscars.css" rel="stylesheet"> 
   <script src="external/jquery/jquery.js"></script>
   <script src="js/jquery-ui.js"></script>
+  <script>
+		$(document).ready(function(){
+		});
+</script>
 </head>
 <body>
-<%@include file="header.jsp" %>
-
+<%@include file="header.jsp" %>          
 <div id="tabs">
 	<ul>
-		<li><a href="admin_sections.jsp">Sections</a></li>
-		<li><a href="admin_TAs.jsp">TAs</a></li>
-		<li><a href="admin_students.jsp">Students</a></li>
+		<li><a href="courseAdmin">Course</a></li>
+		<li><a href="instructor_admin.jsp">Instructor</a></li>
+		<li><a href="student_admin.jsp">Student</a></li>
 	</ul>
 </div>
 <br>

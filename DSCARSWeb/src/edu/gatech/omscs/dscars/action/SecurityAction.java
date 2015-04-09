@@ -34,6 +34,7 @@ public class SecurityAction extends ActionSupport {
 				Map session = ActionContext.getContext().getSession();
 				session.put("user",user);
 				session.put("lastLoginDate", user.getLastLoginDate());
+				ActionContext.getContext().setSession(session);
 
 				//valid user. login permitted. update last login date.
 				user.setLastLoginDate(new Date());

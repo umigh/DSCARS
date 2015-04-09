@@ -61,12 +61,12 @@ public class StudentDao extends HibernateUtil {
 		return Students;
 	}
 	
-	public Student getStudent(String studentId) {
+	public Student getStudent(int studentId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();/*lets hope an id of 1 exists!*/
-		String queryString = "from Student where StudentId = :StudentId";
+		String queryString = "from Student where StudentId = :studentId";
 		Query query = session.createQuery(queryString);
-		query.setString("studentId", studentId);
+		query.setInteger("studentId", studentId);
 		Object queryResult = query.uniqueResult();
 		Student Student = (Student)queryResult;
 		session.getTransaction().commit();

@@ -6,65 +6,65 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
-import edu.gatech.omscs.dscars.model.Program;
+import edu.gatech.omscs.dscars.model.Semester;
 import edu.gatech.omscs.dscars.util.HibernateUtil;
 
-public class ProgramDAO {
+public class SemesterDAO {
 	
-	public Program add(Program Program) {
+	public Semester add(Semester semester) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		session.save(Program);
+		session.save(semester);
 		session.getTransaction().commit();
-		return Program;
+		return semester;
 	}
 	
-	public Program update(Program Program) {
+	public Semester update(Semester semester) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		session.update(Program);
+		session.update(semester);
 		session.getTransaction().commit();
-		return Program;
+		return semester;
 	}
 	
-	public Program delete(Integer ProgramId) {
+	public Semester delete(Integer semesterId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		Program Program = (Program) session.load(Program.class, ProgramId);
-		if(null != Program) {
-			session.delete(Program);
+		Semester semester = (Semester) session.load(Semester.class, semesterId);
+		if(null != semester) {
+			session.delete(semester);
 		}
 		session.getTransaction().commit();
-		return Program;
+		return semester;
 	}
 	
-	public Program getProgram(int ProgramId) {
+	public Semester getSemester(int semesterId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();/*lets hope an id of 1 exists!*/
-		String queryString = "from Program where ProgramId = :ProgramId";
+		String queryString = "from Semester where semesterId = :semesterId";
 		Query query = session.createQuery(queryString);
-		query.setInteger("ProgramId", ProgramId);
+		query.setInteger("semesterId", semesterId);
 		Object queryResult = query.uniqueResult();
-		Program Program = (Program)queryResult;
+		Semester semester = (Semester)queryResult;
 		session.getTransaction().commit();
-		return Program;
+		return semester;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Program> getPrograms() {
+	public List<Semester> getSemesters() {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		List<Program> programs = null;
+		List<Semester> semesters = null;
 		try {
 			
-			programs = (List<Program>) session.createQuery("from Program").list();
+			semesters = (List<Semester>) session.createQuery("from Semester").list();
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 		}
 		session.getTransaction().commit();
-		return programs;
+		return semesters;
 	}
 }

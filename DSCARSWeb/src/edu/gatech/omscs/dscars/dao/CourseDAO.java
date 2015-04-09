@@ -37,12 +37,12 @@ public class CourseDAO {
 		return Course;
 	}
 	
-	public Course getCourse(String courseId) {
+	public Course getCourse(int courseId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();/*lets hope an id of 1 exists!*/
 		String queryString = "from Course where courseId = :courseId";
 		Query query = session.createQuery(queryString);
-		query.setString("courseId", courseId);
+		query.setInteger("courseId", courseId);
 		Object queryResult = query.uniqueResult();
 		Course Course = (Course)queryResult;
 		session.getTransaction().commit();

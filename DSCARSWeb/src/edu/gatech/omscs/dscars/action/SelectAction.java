@@ -1,30 +1,58 @@
 package edu.gatech.omscs.dscars.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import edu.gatech.omscs.dscars.dao.CourseDAO;
 import edu.gatech.omscs.dscars.dao.ProgramDAO;
-import edu.gatech.omscs.dscars.dao.TermDAO;
+import edu.gatech.omscs.dscars.dao.SectionDAO;
+import edu.gatech.omscs.dscars.dao.SemesterDAO;
 import edu.gatech.omscs.dscars.model.Course;
 import edu.gatech.omscs.dscars.model.Program;
+import edu.gatech.omscs.dscars.model.Section;
+import edu.gatech.omscs.dscars.model.Semester;
 
 
 public class SelectAction extends ActionSupport {
 	private static final long serialVersionUID = 9149826260758390091L;
 	String buttonName;
+	Integer programId;
+	Integer semesterId;
+	
 	List<Course> courses;
 	List<Program> programs;
-	List<String> terms;
+	List<Semester> semesters;
+	List<Section> sections;
 	
-	public SelectAction() {
-		CourseDAO cDao=new CourseDAO();
-		courses=cDao.getCourses();
+	public String execute() {
+		return SUCCESS;
+	}
+	
+	protected void setLists() {		
 		ProgramDAO pDao=new ProgramDAO();
 		programs=pDao.getPrograms();
-		TermDAO tDao=new TermDAO();
-		terms=tDao.getTerms();
+		SemesterDAO sDao=new SemesterDAO();
+		semesters=sDao.getSemesters();
+	}
+	
+	protected void setCourseList() {
+		CourseDAO cDao=new CourseDAO();
+		courses=cDao.getCourses();
+	}
+	
+	protected void setSectionList() {
+		SectionDAO secDao=new SectionDAO();
+		if(semesterId!=null && programId!=null)
+			sections=secDao.getSectionsOffered(semesterId, programId);
+	}
+	
+	public SelectAction() {
+		courses=new ArrayList<Course>();
+		programs=new ArrayList<Program>();
+		semesters=new ArrayList<Semester>();
+		sections=new ArrayList<Section>();
 	}
 
 	public String getButtonName() {
@@ -35,12 +63,12 @@ public class SelectAction extends ActionSupport {
 		this.buttonName = buttonName;
 	}
 
-	public List<String> getTerms() {
-		return terms;
+	public List<Semester> getSemesters() {
+		return semesters;
 	}
 
-	public void setTerms(List<String> terms) {
-		this.terms = terms;
+	public void setSemesters(List<Semester> semesters) {
+		this.semesters = semesters;
 	}
 
 	public List<Program> getPrograms() {
@@ -57,5 +85,29 @@ public class SelectAction extends ActionSupport {
 
 	public void setCourses(List<Course> courses) {
 		this.courses = courses;
+	}
+
+	public Integer getProgramId() {
+		return programId;
+	}
+
+	public void setProgramId(Integer programId) {
+		this.programId = programId;
+	}
+
+	public Integer getSemesterId() {
+		return semesterId;
+	}
+
+	public void setSemesterId(Integer semesterId) {
+		this.semesterId = semesterId;
+	}
+
+	public List<Section> getSections() {
+		return sections;
+	}
+
+	public void setSections(List<Section> sections) {
+		this.sections = sections;
 	}
 }
