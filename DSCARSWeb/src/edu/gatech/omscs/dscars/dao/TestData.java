@@ -21,9 +21,12 @@ import edu.gatech.omscs.dscars.model.User;
 public class TestData {
 	
 	public  static void main(String agrs[]) {
-		prorgamData();
+		
+		//prorgamData();
 
-		userData();
+		//userData();
+		
+		/*
 
 		courseData();
 		
@@ -46,6 +49,7 @@ public class TestData {
 			PchSub sub=iter.next();
 			System.out.println(sub.getPriority()+" "+sub.getSection().getCourse().getCourseId()+" "+sub.getSection().getCourse().getCourseName());
 		}
+		*/
 
 		
 	}
@@ -226,6 +230,7 @@ public class TestData {
 		contact=new Contact(903000004,"Eric", "Feron", null);	
 		cdao.add(contact);
 		
+		/*
 		StudentDao sdao=new StudentDao();
 		Student s=new Student(903000001,2);
 		sdao.add(s);
@@ -244,6 +249,7 @@ public class TestData {
 		
 		user=new User(903000004, "dfaour", "TA", "dscars");
 		udao.add(user);
+		*/
 		
 	}
 	
