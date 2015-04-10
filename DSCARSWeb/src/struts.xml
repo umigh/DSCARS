@@ -13,7 +13,7 @@
         		<param name="actionName">pch</param>
     		</result>
     		<result name="admin" type="redirectAction">
-        		<param name="actionName">admin</param>
+        		<param name="actionName">studentAdmin</param>
     		</result>
 			<result name="professor">professor.jsp</result>
 			<result name="TA">TA.jsp</result>
@@ -27,14 +27,18 @@
 			<result name="input">pch.jsp</result>
 		</action>
 		
-	   	<action name="admin" class="edu.gatech.omscs.dscars.action.AdminAction"  method="execute">
-			<result name="success">admin.jsp</result>
-			<result name="error">admin.jsp</result>
-			<result name="input">admin.jsp</result>
+	   	<action name="courseAdmin" class="edu.gatech.omscs.dscars.action.CourseAdminAction"  method="execute">
+			<result name="success">course_admin.jsp</result>
 		</action>
 		
-	   	<action name="courseAdmin" class="edu.gatech.omscs.dscars.action.AdminAction"  method="courseAdmin">
+	   	<action name="instructorAdmin" class="edu.gatech.omscs.dscars.action.InstructorAdminAction"  method="execute">
 			<result name="success">course_admin.jsp</result>
+		</action>
+		
+	   	<action name="studentAdmin" class="edu.gatech.omscs.dscars.action.StudentAdminAction"  method="execute">
+			<result name="success">student_admin.jsp</result>
+			<result name="error">student_admin.jsp</result>
+			<result name="input">student_admin.jsp</result>			
 		</action>
 		
 	  	<action name="logoff" class="edu.gatech.omscs.dscars.action.SecurityAction"  method="logoff">

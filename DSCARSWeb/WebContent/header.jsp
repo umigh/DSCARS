@@ -31,5 +31,3 @@
 	   <p><s:actionmessage/></p>
    </div>
 </s:if>
-
-

@@ -9,7 +9,6 @@ import org.hibernate.classic.Session;
 
 import edu.gatech.omscs.dscars.model.PchSub;
 import edu.gatech.omscs.dscars.model.PreferredCourseHistory;
-import edu.gatech.omscs.dscars.model.User;
 import edu.gatech.omscs.dscars.util.HibernateUtil;
 
 public class PchDAO {   
@@ -97,6 +96,20 @@ public class PchDAO {
 		PreferredCourseHistory PreferredCourseHistory = (PreferredCourseHistory)queryResult;
 		session.getTransaction().commit();
 		return PreferredCourseHistory;
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public List<PreferredCourseHistory> getStudentPch(int programId, int semesterId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();	
+		List<PreferredCourseHistory> preferredCourseHistorys = null;
+		session.beginTransaction();/*lets hope an id of 1 exists!*/
+		String queryString = "from PreferredCourseHistory where programId = :programId and semesterId = :semesterId";
+		Query query = session.createQuery(queryString);
+		query.setInteger("programId", programId);
+		query.setInteger("semesterId", semesterId);
+		preferredCourseHistorys = query.list();
+		session.getTransaction().commit();
+		return preferredCourseHistorys;
 	}	
 	
 	@SuppressWarnings("unchecked")

@@ -65,7 +65,9 @@ public class TestData {
 		PreferredCourseHistory pch=new PreferredCourseHistory();
 		pch.setDateCreated(new Date());
 		pch.setNumCoursesDesired(2);
-		pch.setStudentId(903000001);
+		Contact contact=new Contact();
+		contact.setGtid(903000001);
+		pch.setContact(contact);
 		pch.setSemester(sem.getSemester(1));
 		pch.setDateCreated(new Date());
 		pch.setProgram(pro.getProgram(1));

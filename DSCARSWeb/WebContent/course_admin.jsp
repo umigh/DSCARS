@@ -1,7 +1,15 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
+<!doctype html>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<html lang="en">
 <head>
-<script>
+  <meta charset="utf-8">
+  <title>Dynamic Student Course Assignment</title>
+  <link rel="stylesheet" href="jquery-ui.css">
+  <link href="themes/dscars.css" rel="stylesheet"> 
+  <script src="external/jquery/jquery.js"></script>
+  <script src="jquery-ui.js"></script>
+  <script>
 		$(document).ready(function(){
 			$('.add').on('click', function() {
 			    var options = $('select.multiselect1 option:selected').sort().clone();
@@ -23,9 +31,11 @@
 </head>
 <body>
 <h1>Course Management</h1>
-<s:actionerror/>
+<%@include file="header.jsp" %>          
+<%@include file="admin_menu.jsp" %>
+<div class="ui-widget-content ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 <s:form action="admin" method="post">
-<div>
+<div >
 <s:select property="programId" 
             label="Select Prorgam"
             list="programs"
@@ -95,10 +105,11 @@
 </table>  		
 </div>
 <br/>
-<div>
-<s:submit value="Save" align="left"/>
+<div style="margin-top: 10px; padding: 0 .9em;"  align="center">
+<button type="submit" value="SavePch" id="buttonName" name="buttonName" class="SavePch">Save</button>
 </div>
-
-
+<br/>
 </s:form>
+</div>
+<%@include file="footer.jsp" %>
 </body>

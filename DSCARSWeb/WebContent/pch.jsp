@@ -9,12 +9,7 @@
   <title>DSCARS</title>
   <link href="jquery-ui.css" rel="stylesheet">
   <link href="themes/dscars.css" rel="stylesheet"> 
-  <style type="text/css">
-  
-  
-  </style>
   <script src="external/jquery/jquery.js"></script>
-  <script src="js/jquery-ui.js"></script>
   <script>
   	$(document).ready(function(){
 			$('#semesterId').change(function() {
