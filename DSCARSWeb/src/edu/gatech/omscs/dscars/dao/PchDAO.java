@@ -9,6 +9,7 @@ import org.hibernate.classic.Session;
 
 import edu.gatech.omscs.dscars.model.PchSub;
 import edu.gatech.omscs.dscars.model.PreferredCourseHistory;
+import edu.gatech.omscs.dscars.model.User;
 import edu.gatech.omscs.dscars.util.HibernateUtil;
 
 public class PchDAO {   
@@ -52,6 +53,24 @@ public class PchDAO {
 		}
 		session.getTransaction().commit();
 		return pch;
+	}
+	
+	public void deleteSub(Integer pchSubId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		PchSub sub = (PchSub) session.load(PchSub.class, pchSubId);
+		if(null != sub) {
+			session.delete(sub);
+		}
+		session.getTransaction().commit();
+	}
+	
+	public PchSub updateSub(PchSub sub) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		session.update(sub);
+		session.getTransaction().commit();
+		return sub;
 	}
 	
 	public PreferredCourseHistory getpch(int pchId) {

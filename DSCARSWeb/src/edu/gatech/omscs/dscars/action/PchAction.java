@@ -1,7 +1,15 @@
 package edu.gatech.omscs.dscars.action;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionContext;
 
@@ -21,6 +29,8 @@ public class PchAction extends SelectAction  {
 	Student student;
 	PreferredCourseHistory pch;
 	int sectionId;
+	int pchSubIdcount;
+	String pchSubIds;
 	public PchAction() {
 		super();
 		student=new Student();
@@ -45,10 +55,34 @@ public class PchAction extends SelectAction  {
 		if ("AddCourse".equals(buttonName)) {
 	         return AddCourse(user);
 	    }
-		else {
-			if(semesterId!=null && programId !=null)
-			getPchList(user.getUserId());
+		else if("SavePch".equals(buttonName)) {
+			List<Integer> newSectionIds=new ArrayList<Integer>();
+			StringTokenizer tokens=new StringTokenizer(pchSubIds,",");
+			while(tokens.hasMoreTokens()) {
+				String token=tokens.nextToken();
+				if(token!=null && !"".equals(token)) {
+					int pchSubId=Integer.parseInt(token);
+					newSectionIds.add(pchSubId);
+				}
+			}
+
+			PchDAO dao=new PchDAO();
+			pch=dao.getStudentPch(programId, semesterId, user.getUserId());
+			Iterator<PchSub> iter=pch.getPchSubs().iterator();
+			while(iter.hasNext()) {
+				PchSub sub=iter.next();
+				if(!newSectionIds.contains(sub.getPchSubId())) {
+					dao.deleteSub(sub.getPchSubId());
+				}
+				else {
+					sub.setPriority(newSectionIds.indexOf(sub.getPchSubId())+1);
+					dao.updateSub(sub);
+				}
+			}
 		}
+
+		if(semesterId!=null && programId !=null)
+			getPchList(user.getUserId());
 	    return ERROR;
 	}
 	
@@ -102,5 +136,22 @@ public class PchAction extends SelectAction  {
 
 	public void setSectionId(int sectionId) {
 		this.sectionId = sectionId;
+	}
+
+	public int getPchSubIdcount() {
+		return pchSubIdcount;
+	}
+
+	public void setPchSubIdcount(int pchSubIdcount) {
+		this.pchSubIdcount = pchSubIdcount;
+	}
+
+
+	public String getPchSubIds() {
+		return pchSubIds;
+	}
+
+	public void setPchSubIds(String pchSubIds) {
+		this.pchSubIds = pchSubIds;
 	}
 }

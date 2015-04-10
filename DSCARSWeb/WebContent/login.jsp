@@ -3,32 +3,32 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>DSCARS</title>
-  <link rel="stylesheet" href="themes/jquery-ui.css">
-  <link href="themes/dscars.css" rel="stylesheet"> 
+    <meta charset="utf-8">
+	<title>DSCARS</title>
+	<link href="themes/jquery-ui.min.css" rel="stylesheet">
+	<link href="themes/dscars.css" rel="stylesheet"> 
 </head>
 <body>
-<div class="ui-state-highlight  ui-corner-all" style="margin-bottom: 10px; padding: 0 .9em;">
-<h1>Georgia Institute of Technology</h1>
-</div>
+<header class="ui-widget-header  ui-corner-all" style="margin-bottom: 10px; padding: 0 .9em;">
+<table>
+<tr>
+<td width="60%"><h1>Georgia Institute of Technology</h1></td>
+</tr>
+</table>
+</header>
 <s:if test="hasActionErrors()">
 <div class="ui-widget">
    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-   <p>
-      <s:actionerror/>
-    </p>
+   	<p><s:actionerror/></p>
    </div>
  </div>
 </s:if>
-
-
-
 <s:if test="hasActionMessages()">
    <div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
 	   <p><s:actionmessage/></p>
    </div>
 </s:if>
+
 
 <div class="ui-widget" >
 	<div class="ui-widget-content ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
@@ -42,8 +42,7 @@
 	<br/>
 	</div>
 </div>
-<br>
-<div class="ui-state-highlight  ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
+<div class="ui-widget-header  ui-corner-all" style="margin-bottom: 10px; padding: 0 .9em;">
 Georgia Tech Â© 2014 Georgia Institute of Technology
 </div>
 </body>

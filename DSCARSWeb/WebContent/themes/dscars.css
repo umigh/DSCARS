@@ -39,3 +39,13 @@ body{
 	select {
 		width: 200px;
 	}
+	
+	ul#icons li {
+		cursor: pointer;
+		float: left;
+		list-style: none outside none;
+		margin: 2px;
+		padding: 4px;
+		position: relative;
+	}
+	
