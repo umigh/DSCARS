@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   <title>DSCARS</title>
-  <link href="themes/jquery-ui.css" rel="stylesheet">
+  <link href="jquery-ui.min.css" rel="stylesheet">
   <link href="themes/dscars.css" rel="stylesheet"> 
   <style type="text/css">
   
