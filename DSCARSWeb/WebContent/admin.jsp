@@ -5,10 +5,10 @@
 <head>
   <meta charset="utf-8">
   <title>Dynamic Student Course Assignment</title>
-  <link rel="stylesheet" href="themes/jquery-ui.css">
+  <link rel="stylesheet" href="jquery-ui.css">
   <link href="themes/dscars.css" rel="stylesheet"> 
   <script src="external/jquery/jquery.js"></script>
-  <script src="js/jquery-ui.js"></script>
+  <script src="jquery-ui.js"></script>
   <script>
 		$(document).ready(function(){
 		});
@@ -23,10 +23,7 @@
 		<li><a href="student_admin.jsp">Student</a></li>
 	</ul>
 </div>
-<br>
-<div class="ui-state-highlight  ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
-Georgia Tech Â© 2014 Georgia Institute of Technology
-</div>
+<%@include file="footer.jsp" %>
   <script>
    	$( "#tabs" ).tabs();
   </script>

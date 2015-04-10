@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
 	<title>DSCARS</title>
-	<link href="jquery-ui.min.css" rel="stylesheet">
+	<link href="jquery-ui.css" rel="stylesheet">
 	<link href="themes/dscars.css" rel="stylesheet"> 
 </head>
 <body>
@@ -42,8 +42,6 @@
 	<br/>
 	</div>
 </div>
-<div class="ui-widget-header  ui-corner-all" style="margin-bottom: 10px; padding: 0 .9em;">
-Georgia Tech Â© 2014 Georgia Institute of Technology
-</div>
+<%@include file="footer.jsp" %>
 </body>
 </html>
