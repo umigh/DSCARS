@@ -10,31 +10,25 @@
   <script src="external/jquery/jquery.js"></script>
   <script src="jquery-ui.js"></script>
   <script>
-		$(document).ready(function(){
-			$('.add').on('click', function() {
-			    var options = $('select.multiselect1 option:selected').sort().clone();
-			    $('select.multiselect2').append(options);
-			    return false;
-			});
-			$('.addAll').on('click', function() {
-			    var options = $('select.multiselect1 option').sort().clone();
-			    $('select.multiselect2').append(options);
-			});
-			$('.remove').on('click', function() {
-			    $('select.multiselect2 option:selected').remove();
-			});
-			$('.removeAll').on('click', function() {
-			    $('select.multiselect2').empty();
-			});
-		});
+  $(function () { function moveItems(origin, dest) {
+	    $(origin).find(':selected').appendTo(dest);
+	}
+	               
+	$('#add').on('click', function () {
+	    moveItems('#fullTaList', '#taInsertList');
+	});             
+	$('#remove').on('click', function () {
+	    moveItems('#taInsertList','#fullTaList');
+	});
+	});
 </script>		
 </head>
 <body>
-<h1>Course Management</h1>
+<h1>Session Management</h1>
 <%@include file="header.jsp" %>          
 <%@include file="admin_menu.jsp" %>
 <div class="ui-widget-content ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
-<s:form action="admin" method="post">
+<s:form action="sessionAdmin" method="post">
 <div >
 <s:select property="programId" 
             label="Select Prorgam"
@@ -45,6 +39,7 @@
             emptyOption="false"
             headerKey="-1"
             headerValue="Select Prorgam" />
+            
 <s:select property="semesterId" id="semesterId"
             label="Semester"
             list="semesters"
@@ -64,42 +59,60 @@
             emptyOption="false"
             headerKey="-1"
             headerValue="Select Course"/>
+            
+            
 <s:textfield name="capacity" label="Capacity" value="200"/>
 <s:checkbox name="offered" fieldValue="true" label="Offered?" />
-<s:select  label="Professor"
-		headerKey="-1" 
-		headerValue="Select Professor" 
-		list="#{'E.Feron':'E.Feron'}" name="user.role" value = "#{'E.Feron'}"/>
-		
-	
+
+<s:select   label="Professor"
+            list="profList"
+            listKey="userId"
+            listValue="userName"
+            headerValue="Select Professor" />
 		
 <table>
 <tr>
 <td>
-
-<s:select class="multiselect1" id = "myselecttsms1" label="Select TAs:" name="ids" list="      {'Pablo G','David F','Nando H','ALL','*'}" 
-	headerKey="0" headerValue="Select TAs" property="multiselect1" multiple="true" theme="simple" size="6"/>	
+<s:select 
+	class="fullTaList"
+	id="fullTaList"
+	list="taList"
+	name="userId"
+	listKey="userId"
+	listValue='userName'
+	mutliple="true"
+	size="6"
+	emptyOption="false"
+    headerKey="-1"
+	/>	
 </td>
+
+
 <td>
 <table>
-<tr><td>
-<button class="add">Add</button>
-</td></tr>
-<tr><td>
-<button class="addAll">Add All</button>
-</td></tr>
-<tr><td>
-<button class="remove">Remove</button>
-</td></tr>
-<tr><td>
-<button class="removeAll">Remove All</button>
-</td></tr>
+	<tr>
+		<td>
+			<!-- <button class="add">Add</button> -->
+			<input type="button" value="Add" id="add"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="button" value="Remove" id="remove"/>
+		</td>
+	</tr>
 </table>
 </td>
+
 <td>
-<select multiple="true" class="multiselect2" name="myselecttsms2" size="6">
-   
-</select>
+<s:select 
+	class="taInsertList"
+	id="taInsertList"
+	list="{}"
+	mutliple="true"
+	size="6"
+    headerKey="-1"
+	/>	
 </td>
 </tr>
 </table>  		

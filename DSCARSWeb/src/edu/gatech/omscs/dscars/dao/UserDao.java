@@ -72,4 +72,43 @@ public class UserDao extends HibernateUtil {
 		session.getTransaction().commit();
 		return user;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> getTAs() {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<User> users = null;
+		try {
+			
+			users = (List<User>) session.createQuery("from User where Role = 'TA'").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return users;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> getProfessors() {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<User> users = null;
+		try {
+			
+			users = (List<User>) session.createQuery("from User where Role = 'Professor'").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return users;
+	}
+	
+
+	
 }
