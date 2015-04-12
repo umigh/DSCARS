@@ -90,7 +90,7 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@Column(name = "StudentID")
+	@JoinColumn(name = "StudentID", nullable = false)
 	public Student getStudent() {
 		return this.student;
 	}
