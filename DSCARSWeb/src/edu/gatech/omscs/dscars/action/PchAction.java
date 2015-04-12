@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts2.ServletActionContext;
-
 import com.opensymphony.xwork2.ActionContext;
 
 import edu.gatech.omscs.dscars.dao.PchDAO;
@@ -18,9 +14,9 @@ import edu.gatech.omscs.dscars.dao.SectionDAO;
 import edu.gatech.omscs.dscars.dao.StudentDao;
 import edu.gatech.omscs.dscars.model.PchSub;
 import edu.gatech.omscs.dscars.model.PreferredCourseHistory;
+import edu.gatech.omscs.dscars.model.Section;
 import edu.gatech.omscs.dscars.model.Student;
 import edu.gatech.omscs.dscars.model.User;
-import edu.gatech.omscs.dscars.model.Section;
 
 
 
