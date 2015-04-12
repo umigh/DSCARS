@@ -32,7 +32,7 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	private Integer pchId;
 	private Semester semester;
 	private Program program;
-	private int studentId;
+	private Student student;
 	private Contact contact;
 	private int numCoursesDesired;
 	private Date dateCreated;
@@ -43,14 +43,16 @@ public class PreferredCourseHistory implements java.io.Serializable {
 
 	public PreferredCourseHistory(int studentId, int numCoursesDesired,
 			Date dateCreated) {
-		this.studentId = studentId;
+		student=new Student();
+		student.setStudentId(studentId);
 		this.numCoursesDesired = numCoursesDesired;
 		this.dateCreated = dateCreated;
 	}
 
 	public PreferredCourseHistory(int studentId, int numCoursesDesired,
 			Date dateCreated, Set<PchSub> pchSubs) {
-		this.studentId = studentId;
+		student=new Student();
+		student.setStudentId(studentId);
 		this.numCoursesDesired = numCoursesDesired;
 		this.dateCreated = dateCreated;
 		this.pchSubs = pchSubs;
@@ -87,13 +89,14 @@ public class PreferredCourseHistory implements java.io.Serializable {
 		this.pchId = pchId;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER)
 	@Column(name = "StudentID")
-	public int getStudentId() {
-		return this.studentId;
+	public Student getStudent() {
+		return this.student;
 	}
 
-	public void setStudentId(int studentId) {
-		this.studentId = studentId;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 	@Column(name = "Num_Courses_Desired", nullable = false)
