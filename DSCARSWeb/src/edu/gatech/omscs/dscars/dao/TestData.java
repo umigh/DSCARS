@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import edu.gatech.omscs.dscars.exception.SettingLockedException;
 import edu.gatech.omscs.dscars.model.Contact;
+import edu.gatech.omscs.dscars.model.CoreEngineSetting;
 import edu.gatech.omscs.dscars.model.Course;
 import edu.gatech.omscs.dscars.model.Instructor;
 import edu.gatech.omscs.dscars.model.PchSub;
@@ -34,7 +36,7 @@ public class TestData {
 		
 		//semesterData();
 		
-		
+		/*
 		userData();
 		sectionData();
 		sectionData1();
@@ -46,7 +48,60 @@ public class TestData {
 		addSectionTA();
 		
 		addSectionStudent();
+		*/
+		
+		addCoreEngineSetting();
 	}
+	
+	public static void addCoreEngineSetting() {
+		CoreEngineSetting setting=new CoreEngineSetting(903000002, 200, 200, 1);
+		CoreEngineSettingDao dao=new CoreEngineSettingDao();
+		
+		//add new setting by user
+		try {
+			dao.addOrUpdate(setting);
+		} catch (SettingLockedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		//This should update existing setting record. Should not create a new one.
+		try {
+			setting.setMaxClassSizeDefault(300);
+			dao.addOrUpdate(setting);
+		} catch (SettingLockedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//lock by core engine
+		setting=dao.getCoreEngineSettingBySemester(1);
+		dao.lock(setting);
+
+		//This should throw locked exception.
+		try {
+			setting.setMaxClassSizeDefault(400);
+			dao.addOrUpdate(setting);
+		} catch (SettingLockedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//unlock.
+		setting=dao.getCoreEngineSettingBySemester(1);
+		dao.complete(setting);
+		
+		//This should update MaxClassSizeDefault to 300, status to New.
+		try {
+			setting.setMaxClassSizeDefault(500);
+			setting.setStudentsPerInstructor(500);
+			dao.addOrUpdate(setting);
+		} catch (SettingLockedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public static void addSectionTA() {
 		SectionTADAO stadao=new SectionTADAO();		
@@ -58,8 +113,6 @@ public class TestData {
 		tas.add(903000003);
 		tas.add(903000010);
 		stadao.merge(1, tas, true);
-		
-		
 	}
 	
 	public static void addSectionStudent() {

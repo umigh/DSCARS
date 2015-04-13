@@ -34,5 +34,6 @@
   <mapping class="edu.gatech.omscs.dscars.model.Contact"/>
   <mapping class="edu.gatech.omscs.dscars.model.SectionTA"/>
   <mapping class="edu.gatech.omscs.dscars.model.SectionStudent"/>
+  <mapping class="edu.gatech.omscs.dscars.model.CoreEngineSetting"/>
  </session-factory>
 </hibernate-configuration>
