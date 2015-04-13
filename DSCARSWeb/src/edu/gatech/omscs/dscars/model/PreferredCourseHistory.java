@@ -33,7 +33,6 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	private Semester semester;
 	private Program program;
 	private Student student;
-	private Contact contact;
 	private int numCoursesDesired;
 	private Date dateCreated;
 	private Set<PchSub> pchSubs = new HashSet<PchSub>(0);
@@ -41,16 +40,14 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	public PreferredCourseHistory() {
 	}
 
-	public PreferredCourseHistory(int studentId, int numCoursesDesired,
-			Date dateCreated) {
+	public PreferredCourseHistory(int studentId, int numCoursesDesired,Date dateCreated) {
 		student=new Student();
 		student.setStudentId(studentId);
 		this.numCoursesDesired = numCoursesDesired;
 		this.dateCreated = dateCreated;
 	}
 
-	public PreferredCourseHistory(int studentId, int numCoursesDesired,
-			Date dateCreated, Set<PchSub> pchSubs) {
+	public PreferredCourseHistory(int studentId, int numCoursesDesired,Date dateCreated, Set<PchSub> pchSubs) {
 		student=new Student();
 		student.setStudentId(studentId);
 		this.numCoursesDesired = numCoursesDesired;
@@ -90,7 +87,7 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "StudentID", nullable = false)
+	@JoinColumn(name = "studentId", insertable=true,updatable=true)
 	public Student getStudent() {
 		return this.student;
 	}
@@ -127,15 +124,4 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	public void setPchSubs(Set<PchSub> pchSubs) {
 		this.pchSubs = pchSubs;
 	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "studentId", insertable=false,updatable=false)
-	public Contact getContact() {
-		return contact;
-	}
-
-	public void setContact(Contact contact) {
-		this.contact = contact;
-	}
-
 }

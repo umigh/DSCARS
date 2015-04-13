@@ -108,7 +108,7 @@
             list="sections"
             name="sectionId"
             listKey="sectionId"
-            listValue='course.courseId+" "+course.courseName +"."+sectionId'
+            listValue='course.courseId+" "+course.courseName'
             emptyOption="false"
             headerKey="-1"
             headerValue="Select Course" theme="simple"/></td> 
@@ -124,9 +124,7 @@
 <table id="pchSubsTable">
 <tr class="ui-widget-header ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 <th hidden="true">Section Id</th>
-<th >Course Id</th>
-<th >Course Name</th>
-<th >PchSubId</th>
+<th >Course</th>
 <th >Instructor</th>
 <th >Max Class Size</th>
 <th >Max TAs</th>
@@ -138,19 +136,17 @@
 <s:iterator value="pch.pchSubs" status="sub">
   <tr class="ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
   		<td hidden="true"><s:property value="pchSubId"/> </td>
-  		<td><s:property value="section.course.courseId"/> </td>
-    	<td><s:property value="section.course.courseName"/> </td>
-    	<td><s:property value="pchSubId"/> </td>
+  		<td><s:property value="section.course.courseId+' '+section.course.courseName"/> </td>
     	<td><s:property value="section.instructor.name"/> </td>
     	<td><s:property value="section.maxClassSize"/> </td>
     	<td><s:property value="section.maxTas"/> </td>
     	<td><s:property value="section.courseDemand"/> </td>
-    	<td align="center">
-    	<s:if test="%{recommended==true}">
-    	<input type="checkbox" name="recommended" value="true" checked>
+    	<td align="center" >
+    	<s:if test="%{recommendedDate!=null}">
+    	<input type="checkbox" name="recommended" value="true" disabled="disabled" checked="checked" >
     	</s:if>
     	<s:else>
-    	<input type="checkbox" name="recommended" value="false">
+    	<input type="checkbox" name="recommended" value="false" disabled="disabled">
     	</s:else>
     	</td>
     	<td><s:property value="section.date"/> </td>

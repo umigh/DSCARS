@@ -1,8 +1,10 @@
 package edu.gatech.omscs.dscars.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -13,6 +15,8 @@ import edu.gatech.omscs.dscars.model.PchSub;
 import edu.gatech.omscs.dscars.model.PreferredCourseHistory;
 import edu.gatech.omscs.dscars.model.Program;
 import edu.gatech.omscs.dscars.model.Section;
+import edu.gatech.omscs.dscars.model.SectionStudent;
+import edu.gatech.omscs.dscars.model.SectionTA;
 import edu.gatech.omscs.dscars.model.Semester;
 import edu.gatech.omscs.dscars.model.Student;
 import edu.gatech.omscs.dscars.model.User;
@@ -24,33 +28,55 @@ public class TestData {
 		
 		//prorgamData();
 
-		//userData();
 		
-		/*
-
-		courseData();
 		
-		semesterData();
+		//courseData();
 		
-		instructorData();
+		//semesterData();
 		
+		
+		userData();
 		sectionData();
 		sectionData1();
 		sectionData2();
 		sectionData3();
 		
 		setPchData();
-				
-		PchDAO dao=new PchDAO();
-		PreferredCourseHistory pch= dao.getStudentPch(1, 1,903000001);
-		Set<PchSub> set=pch.getPchSubs();
-		Iterator<PchSub> iter=set.iterator();
-		while(iter.hasNext()) {
-			PchSub sub=iter.next();
-			System.out.println(sub.getPriority()+" "+sub.getSection().getCourse().getCourseId()+" "+sub.getSection().getCourse().getCourseName());
-		}
-		*/
+		
+		addSectionTA();
+		
+		addSectionStudent();
+	}
+	
+	public static void addSectionTA() {
+		SectionTADAO stadao=new SectionTADAO();		
+		SectionTA sta=new SectionTA(1,903000004,true);
+		sta=stadao.add(sta);
+		sta=new SectionTA(2,903000004,false);
+		stadao.add(sta);
+		List<Integer> tas=new ArrayList<Integer>();
+		tas.add(903000003);
+		tas.add(903000010);
+		stadao.merge(1, tas, true);
+		
+		
+	}
+	
+	public static void addSectionStudent() {
+		SectionStudentDao sstdao=new SectionStudentDao();		
+		SectionStudent sst=new SectionStudent(1,903000001);
+		sst=sstdao.add(sst);
+		sst=new SectionStudent(2,903000008);
+		sstdao.add(sst);
+		sst=new SectionStudent(2,903000006);
+		sstdao.add(sst);
+		sst=new SectionStudent(2,903000007);
+		sstdao.add(sst);
 
+		sst=new SectionStudent(3,903000007);
+		sstdao.add(sst);
+		
+		sstdao.delete(3);
 		
 	}
 
@@ -65,9 +91,7 @@ public class TestData {
 		PreferredCourseHistory pch=new PreferredCourseHistory();
 		pch.setDateCreated(new Date());
 		pch.setNumCoursesDesired(2);
-		Contact contact=new Contact();
-		contact.setGtid(903000001);
-		pch.setContact(contact);
+		pch.setStudent(new Student(903000001));
 		pch.setSemester(sem.getSemester(1));
 		pch.setDateCreated(new Date());
 		pch.setProgram(pro.getProgram(1));
@@ -178,16 +202,6 @@ public class TestData {
 	}
 	
 	
-	private static void instructorData() {
-		Instructor i=new Instructor();
-		i.setActive(true);
-		i.setCurrentCourseCount(4);
-		i.setInstructorId(903000004);
-		i.setIsProfessor(true);
-		InstructorDao idao=new InstructorDao();
-		idao.add(i);
-	}
-
 	private static void semesterData() {
 		SemesterDAO dao=new SemesterDAO();
 		Semester s=new Semester();
@@ -220,39 +234,74 @@ public class TestData {
 	
 	private static void userData() {
 		ContactDao cdao=new ContactDao();
-		Contact contact=new Contact(903000001,"Umashankar", "Gaddameedi","umashankar3@gatech.edu");
-		cdao.add(contact);
-
-		contact=new Contact(903000002,"Rebeca", "Wilson", null);	
-		cdao.add(contact);
-		
-		contact=new Contact(903000003,"David", "Faour", null);	
-		cdao.add(contact);
-		
-		contact=new Contact(903000004,"Eric", "Feron", null);	
-		cdao.add(contact);
-		
-		/*
 		StudentDao sdao=new StudentDao();
-		Student s=new Student(903000001,2);
-		sdao.add(s);
-		
-
-		
 		UserDao udao=new UserDao();
-		User user=new User(903000001, "umashankar3", "Student", "dscars");
+		InstructorDao idao=new InstructorDao();
+		User user=null;
+		Contact contact=null;
+		Student s=null;
+		
+		contact=new Contact(903000001,"Umashankar", "Gaddameedi","umashankar3@gatech.edu");
+		cdao.add(contact);
+		s=new Student(903000001,2);
+		sdao.add(s);
+		user=new User(903000001, "umashankar3", "Student", "dscars");
 		udao.add(user);
 		
+		contact=new Contact(903000002,"Rebeca", "Wilson", null);	
+		cdao.add(contact);
 		user=new User(903000002, "rwilson", "Admin", "dscars");
 		udao.add(user);
 		
-		user=new User(903000003, "eric.feron", "Professor", "dscars");
-		udao.add(user);
+		contact=new Contact(903000003,"David", "Faour", null);	
+		cdao.add(contact);
+		user=new User(903000003, "dfaour", "TA", "dscars");
+		udao.add(user);		
+		Instructor i=new Instructor(903000003, false, true, 2);
+		idao.add(i);
 		
-		user=new User(903000004, "dfaour", "TA", "dscars");
+		contact=new Contact(903000004,"Eric", "Feron", null);	
+		cdao.add(contact);
+		user=new User(903000004, "eric.feron", "Professor", "dscars");
 		udao.add(user);
-		*/
+		i=new Instructor(903000004, true, true, 2);
+		idao.add(i);
 		
+		contact=new Contact(903000005,"Amudha", "Sethuraman", "amudha77@gmail.com");	
+		cdao.add(contact);
+		user=new User(903000005, "amudha", "Student", "dscars");
+		udao.add(user);
+		s=new Student(903000005,2);
+		sdao.add(s);
+		
+		
+		contact=new Contact(903000006,"Caleb", "Rapier", "caleb.rapier@gmail.com");	
+		cdao.add(contact);
+		user=new User(903000006, "caleb", "Student", "dscars");
+		udao.add(user);
+		s=new Student(903000006,2);
+		sdao.add(s);
+		
+		contact=new Contact(903000007,"Ray", "Reese", "rnreese@comcast.net");	
+		cdao.add(contact);
+		user=new User(903000007, "ray", "Student", "dscars");
+		udao.add(user);
+		s=new Student(903000007,2);
+		sdao.add(s);
+		
+		contact=new Contact(903000008,"Thomas", "Wyrick", "thomas.wyrick@gatech.edu");	
+		cdao.add(contact);
+		user=new User(903000008, "tom", "Student", "dscars");
+		udao.add(user);
+		s=new Student(903000008,2);
+		sdao.add(s);
+		
+		contact=new Contact(903000010,"Kerman", "Ian", null);	
+		cdao.add(contact);
+		user=new User(903000010, "ian.kerman", "TA", "dscars");
+		udao.add(user);
+		i=new Instructor(903000010, false, true, 2);
+		idao.add(i);
 	}
 	
 	

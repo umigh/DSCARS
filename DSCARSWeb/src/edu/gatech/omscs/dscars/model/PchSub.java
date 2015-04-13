@@ -1,4 +1,5 @@
 package edu.gatech.omscs.dscars.model;
+import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -27,11 +28,11 @@ public class PchSub implements java.io.Serializable {
 	private Section section;
 	private PreferredCourseHistory preferredCourseHistory;
 	private int priority;
-	private boolean recommended;
 	private Date createDate;
 	private String createUser;
 	private Date updateDate;
 	private String updateUser;
+	Date recommendedDate;
 
 	public PchSub() {
 	}
@@ -85,14 +86,6 @@ public class PchSub implements java.io.Serializable {
 		this.priority = priority;
 	}
 
-	@Type(type="yes_no")
-	public boolean isRecommended() {
-		return recommended;
-	}
-
-	public void setRecommended(boolean recommended) {
-		this.recommended = recommended;
-	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createDate", length = 19)
@@ -132,4 +125,13 @@ public class PchSub implements java.io.Serializable {
 		this.updateUser = updateUser;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "recommendedDate", nullable = true, length = 19)
+	public Date getRecommendedDate() {
+		return recommendedDate;
+	}
+
+	public void setRecommendedDate(Date recommendedDate) {
+		this.recommendedDate = recommendedDate;
+	}
 }

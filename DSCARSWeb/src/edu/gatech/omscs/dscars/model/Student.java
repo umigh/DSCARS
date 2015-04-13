@@ -21,6 +21,10 @@ public class Student implements java.io.Serializable {
 	public Student() {
 	}
 
+	public Student(int studentId) {
+		this.studentId = studentId;
+	}
+	
 	public Student(int studentId, int maxCoursesPerTerm) {
 		this.studentId = studentId;
 		this.maxCoursesPerTerm = maxCoursesPerTerm;

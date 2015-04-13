@@ -88,8 +88,7 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 <table id="studentPchTable">
 <tr class="ui-widget-header ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 <th>Student</th>
-<th >Course Id</th>
-<th >Course Name</th>
+<th >Course</th>
 <th >Priority</th>
 <th >Instructor</th>
 <th >Max Class Size</th>
@@ -103,16 +102,15 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 <s:iterator value="pchList" status="pch">
 	<s:iterator value="pchSubs" status="pchSub">
 	  <tr class="ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
-	  		<td><s:property value="contact.firstName+' '+contact.lastName"/> </td>
-	  		<td><s:property value="section.course.courseId"/> </td>
-	    	<td><s:property value="section.course.courseName"/> </td>
+	  		<td><s:property value="student.contact.firstName+' '+student.contact.lastName"/> </td>
+	  		<td><s:property value="section.course.courseId+' '+section.course.courseName"/> </td>
 	    	<td align="center"><s:property value="priority"/> </td>
 	    	<td><s:property value="section.instructor.name"/> </td>
 	    	<td><s:property value="section.maxClassSize"/> </td>
 	    	<td><s:property value="section.maxTas"/> </td>
 	    	<td><s:property value="section.courseDemand"/> </td>
 	    	<td align="center">
-	    	<s:if test="%{recommended==true}">
+	    	<s:if test="%{recommendedDate!=null}">
 	    	<input type="checkbox" name="recommended" value="true" checked>
 	    	</s:if>
 	    	<s:else>

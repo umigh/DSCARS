@@ -32,9 +32,13 @@ public class Section implements java.io.Serializable {
 	private int courseDemand;
 	private Date date;
 	private Program program;
-	private boolean offered=true;;
+	private boolean offered=true;
 
 	public Section() {
+	}
+	
+	public Section(int sectionId) {
+		this.sectionId=sectionId;
 	}
 
 	public Section(Instructor instructor, Course course, Semester semester,
