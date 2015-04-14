@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class PchDAO {
 	public PreferredCourseHistory add(PreferredCourseHistory pch) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
+		pch.setDateCreated(new Date());
 		session.save(pch); 
 		Iterator<PchSub> iter=pch.getPchSubs().iterator();
 		while(iter.hasNext()) {

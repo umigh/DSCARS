@@ -15,11 +15,14 @@
 			$('#semesterId').change(function() {
         		this.form.submit();
    			 });
-   			$('.add').on('click', function() {			    
-			    //$('#pchSubs').append("<tr><td style='background: #CCCCCC'>CourseId</td><td style="background: #CCCCCC">Course Name </td><td style="background: #CCCCCC">Priority </td><td style="background: #CCCCCC">Instructor </td><td style="background: #CCCCCC">max class size </td><td style="background: #CCCCCC">Max TAs</td><td style="background: #CCCCCC">Demand </td><td style="background: #CCCCCC">Date </td></tr>");
-			    alert("Save?");
-			    return false;			    
-			});
+   			 
+   			$('.AddCourse').on('click', function() { 
+        		if($('#sectionId').val()<1) {
+        			alert('Please select a course!');
+        			return false;
+        		}        		
+   			 });
+   			 
 			
 			 $('#pchSubsTable a.move').click(function() 
 			    {
@@ -55,7 +58,7 @@
 			    $('#pchSubIds').val(pchSubIds);
 			});
 			
-				$('#pchSubsTable a.delete').click(function() 
+			$('#pchSubsTable a.delete').click(function() 
 			    {
 			    	var $row = $(this).parents('tr:first');
 			        $row.remove();
@@ -74,7 +77,7 @@
 <input type="hidden"  id="pchSubIdcount" name="pchSubIdcount" />
 <input type="hidden"  id="pchSubIds" name="pchSubIds" />
 <table>
-<tr><td>Program</td><td><s:select property="programId" 
+<tr><td>Program</td><td><s:select property="programId" 			
             label="Select Prorgam"
             list="programs"
             name="programId"
@@ -103,7 +106,7 @@
      </td>
      <s:if test="%{sections!=null}">
      <td>Course:</td>   
-     <td><s:select
+     <td><s:select property="sectionId" id="sectionId"
             label="Course"
             list="sections"
             name="sectionId"
@@ -113,7 +116,7 @@
             headerKey="-1"
             headerValue="Select Course" theme="simple"/></td> 
       <td>
-      <button type="submit" value="AddCourse" id="buttonName" name="buttonName">Add</button>
+      <button type="submit" value="AddCourse" id="buttonName" name="buttonName" class="AddCourse">Add</button>
       </td>
       </s:if>
      </tr>
@@ -159,7 +162,11 @@
 </div>
 <br/>
 <div style="margin-top: 10px; padding: 0 .9em;"  align="center">
-<button type="submit" value="SavePch" id="buttonName" name="buttonName" class="SavePch">Save</button>
+<s:if test="%{pch.pchSubs!=null and pch.pchSubs.size()>0}">
+	<button type="submit" value="SavePch" id="buttonName" name="buttonName" class="SavePch">Save Preference</button>
+	&nbsp;&nbsp;
+	<button type="submit" value="RunRecommendation" id="buttonName" name="buttonName" class="SavePch">Run Recommendation</button>
+</s:if>
 </div>
 <br/><br/>
 </s:form>

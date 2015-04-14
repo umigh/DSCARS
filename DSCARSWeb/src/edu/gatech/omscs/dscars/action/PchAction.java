@@ -9,20 +9,21 @@ import java.util.StringTokenizer;
 
 import com.opensymphony.xwork2.ActionContext;
 
+import edu.gatech.omscs.dscars.dao.CoreEngineSettingDao;
 import edu.gatech.omscs.dscars.dao.PchDAO;
-import edu.gatech.omscs.dscars.dao.SectionDAO;
-import edu.gatech.omscs.dscars.dao.StudentDao;
+import edu.gatech.omscs.dscars.exception.SettingLockedException;
+import edu.gatech.omscs.dscars.model.CoreEngineSetting;
 import edu.gatech.omscs.dscars.model.PchSub;
 import edu.gatech.omscs.dscars.model.PreferredCourseHistory;
+import edu.gatech.omscs.dscars.model.Program;
 import edu.gatech.omscs.dscars.model.Section;
-import edu.gatech.omscs.dscars.model.Student;
+import edu.gatech.omscs.dscars.model.Semester;
 import edu.gatech.omscs.dscars.model.User;
 
 
 
 public class PchAction extends SelectAction  {
 	private static final long serialVersionUID = 9149826260758390091L;
-	Student student;
 	PreferredCourseHistory pch;
 	int sectionId;
 	int pchSubIdcount;
@@ -30,7 +31,6 @@ public class PchAction extends SelectAction  {
 	List<Integer> eligibleCourseList;
 	public PchAction() {
 		super();
-		student=new Student();
 		pch=new PreferredCourseHistory();
 
 	}
@@ -39,56 +39,91 @@ public class PchAction extends SelectAction  {
 	public String execute() {
 		Map session = ActionContext.getContext().getSession();
 		User user=(User) session.get("user");
-		setLists();
-		setSectionList();
 		PchDAO dao=new PchDAO();
+		
+		pch=new PreferredCourseHistory();
+		if ("AddCourse".equals(buttonName)) {
+	         addCourse(user);
+	    }
+		else if("SavePch".equals(buttonName)) {
+			savePch(user, dao);
+		}
+		else if("RunRecommendation".equals(buttonName)) {
+			runRecommendation(user, dao);
+		}
+		
+
+		if(semesterId!=null && programId !=null)
+			getPchList(user.getUserId());
+	
+		setLists();
+		filterSections(user, dao);
+	    return SUCCESS;
+	}
+
+	private void filterSections(User user, PchDAO dao) {
+		setSectionList();
 		eligibleCourseList=dao.getEligibleCourses(user.getUserId());
 		for(int i=0;i<sections.size();i++) {
 			if(!eligibleCourseList.contains(((Section) sections.get(i)).getCourse().getCourseId())) {
 				sections.remove(i);
 			}
 		}
-		SectionDAO secDao=new SectionDAO();
-		/*
-		if(semesterId!=null && programId!=null)
-			sections=secDao.getSectionsOffered(semesterId, programId);
-		*/
-
-		StudentDao stDao=new StudentDao(); 
-		student=stDao.getStudent(user.getUserId());
-		pch=new PreferredCourseHistory();
-		if ("AddCourse".equals(buttonName)) {
-	         return AddCourse(user);
-	    }
-		else if("SavePch".equals(buttonName)) {
-			List<Integer> newSectionIds=new ArrayList<Integer>();
-			StringTokenizer tokens=new StringTokenizer(pchSubIds,",");
-			while(tokens.hasMoreTokens()) {
-				String token=tokens.nextToken();
-				if(token!=null && !"".equals(token)) {
-					int pchSubId=Integer.parseInt(token);
-					newSectionIds.add(pchSubId);
-				}
-			}
-
-			
-			pch=dao.getStudentPch(programId, semesterId, user.getUserId());
+		if(pch!=null && pch.getPchSubs()!=null) {
 			Iterator<PchSub> iter=pch.getPchSubs().iterator();
 			while(iter.hasNext()) {
 				PchSub sub=iter.next();
-				if(!newSectionIds.contains(sub.getPchSubId())) {
-					dao.deleteSub(sub.getPchSubId());
-				}
-				else {
-					sub.setPriority(newSectionIds.indexOf(sub.getPchSubId())+1);
-					dao.updateSub(sub);
+				for(int i=0;i<sections.size();i++) {
+					int subSectionId=sub.getSection().getSectionId();
+					int selectSectionId=sections.get(i).getSectionId();
+					if(subSectionId==selectSectionId) {
+						sections.remove(i);
+					}
 				}
 			}
 		}
+		
 
-		if(semesterId!=null && programId !=null)
-			getPchList(user.getUserId());
-	    return ERROR;
+	}
+
+	
+	private void runRecommendation(User user, PchDAO dao) {
+		savePch(user, dao);
+		CoreEngineSetting setting=new CoreEngineSetting(user.getUserId(), 200, 200, semesterId);
+		CoreEngineSettingDao coedao=new CoreEngineSettingDao();
+		
+		try {
+			coedao.addOrUpdate(setting);
+			addActionMessage("A core engine job is schedule to run recommendations. Please check results in a minute.");
+		} catch (SettingLockedException e) {
+			System.out.println(e);
+			addActionError("A scheduled core engine job is already running recommendations. Please check results in a minute.");
+		}
+	}
+	private void savePch(User user, PchDAO dao) {
+		List<Integer> newSectionIds=new ArrayList<Integer>();
+		StringTokenizer tokens=new StringTokenizer(pchSubIds,",");
+		while(tokens.hasMoreTokens()) {
+			String token=tokens.nextToken();
+			if(token!=null && !"".equals(token)) {
+				int pchSubId=Integer.parseInt(token);
+				newSectionIds.add(pchSubId);
+			}
+		}
+
+		
+		pch=dao.getStudentPch(programId, semesterId, user.getUserId());
+		Iterator<PchSub> iter=pch.getPchSubs().iterator();
+		while(iter.hasNext()) {
+			PchSub sub=iter.next();
+			if(!newSectionIds.contains(sub.getPchSubId())) {
+				dao.deleteSub(sub.getPchSubId());
+			}
+			else {
+				sub.setPriority(newSectionIds.indexOf(sub.getPchSubId())+1);
+				dao.updateSub(sub);
+			}
+		}
 	}
 	
 	private void getPchList(int studentId) {
@@ -96,11 +131,16 @@ public class PchAction extends SelectAction  {
 		pch=dao.getStudentPch(programId, semesterId, studentId);
 	}
 
-	public String AddCourse(User user) {
-		setSectionList();
+	public void addCourse(User user) {
 		PchDAO dao=new PchDAO();
-		pch=dao.getStudentPch(programId, semesterId, user.getUserId());
-		
+		PreferredCourseHistory pch=dao.getStudentPch(programId, semesterId, user.getUserId());
+		if(pch==null) {
+			pch=new PreferredCourseHistory(user.getUserId(), 1, new Date());
+			pch.setSemester(new Semester(semesterId));
+			pch.setProgram(new Program(programId));
+			dao.add(pch);
+			pch=dao.getStudentPch(programId, semesterId, user.getUserId());
+		}
 		PchSub sub=new PchSub();
 		edu.gatech.omscs.dscars.model.Section section=new Section();
 		section.setSectionId(sectionId);
@@ -111,20 +151,10 @@ public class PchAction extends SelectAction  {
 		sub.setPriority(pch.getPchSubs().size()+1);
 		dao.addSub(sub);
 		pch=dao.getStudentPch(programId, semesterId, user.getUserId());
-
-		return SUCCESS;
 	}
 	
 	
 	public void validateForm() {
-	}
-
-	public Student getStudent() {
-		return student;
-	}
-
-	public void setStudent(Student student) {
-		this.student = student;
 	}
 
 	public PreferredCourseHistory getPch() {
