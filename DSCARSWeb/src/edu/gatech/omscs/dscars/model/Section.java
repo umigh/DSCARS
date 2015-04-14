@@ -1,4 +1,5 @@
 package edu.gatech.omscs.dscars.model;
+import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -33,6 +34,8 @@ public class Section implements java.io.Serializable {
 	private Date date;
 	private Program program;
 	private boolean offered=true;
+	private int generatedClassSize;
+	private int generatedTASize;
 
 	public Section() {
 	}
@@ -170,6 +173,44 @@ public class Section implements java.io.Serializable {
 
 	public void setOffered(boolean offered) {
 		this.offered = offered;
+	}
+
+	@Column(name = "GeneratedClassSize", nullable = false)
+	public int getGeneratedClassSize() {
+		return generatedClassSize;
+	}
+
+	public void setGeneratedClassSize(int generatedClassSize) {
+		this.generatedClassSize = generatedClassSize;
+	}
+
+	@Column(name = "GeneratedTASize", nullable = false)
+	public int getGeneratedTASize() {
+		return generatedTASize;
+	}
+
+	public void setGeneratedTASize(int generatedTASize) {
+		this.generatedTASize = generatedTASize;
+	}
+	
+	@Transient
+	public int getStudentCapacity() {
+		if(generatedClassSize>0) {
+			return generatedClassSize;
+		}
+		else {
+			return maxClassSize;
+		}
+	}
+	
+	@Transient
+	public int getTACapacity() {
+		if(generatedTASize>0) {
+			return generatedClassSize;
+		}
+		else {
+			return maxTas;
+		}
 	}
 
 }

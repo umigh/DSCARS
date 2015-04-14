@@ -27,30 +27,20 @@ import edu.gatech.omscs.dscars.model.User;
 public class TestData {
 	
 	public  static void main(String agrs[]) {
-		
-		//prorgamData();
-
-		
-		
-		//courseData();
-		
-		//semesterData();
-		
 		/*
+		prorgamData();
+		courseData();
+		semesterData();
 		userData();
 		sectionData();
 		sectionData1();
 		sectionData2();
 		sectionData3();
-		
 		setPchData();
-		
 		addSectionTA();
-		
 		addSectionStudent();
-		*/
-		
 		addCoreEngineSetting();
+		*/
 	}
 	
 	public static void addCoreEngineSetting() {
