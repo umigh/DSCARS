@@ -24,9 +24,10 @@
 </script>		
 </head>
 <body>
-<h1>Session Management</h1>
+
 <%@include file="header.jsp" %>          
 <%@include file="admin_menu.jsp" %>
+<h1>Session Management</h1>
 <div class="ui-widget-content ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 <s:form action="sessionAdmin" method="post">
 <div >

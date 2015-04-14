@@ -2,6 +2,7 @@ package edu.gatech.omscs.dscars.action;
 
 import java.util.List;
 
+import edu.gatech.omscs.dscars.dao.CourseDAO;
 import edu.gatech.omscs.dscars.dao.UserDao;
 import edu.gatech.omscs.dscars.dao.SectionDAO;
 import edu.gatech.omscs.dscars.model.Instructor;
@@ -21,7 +22,9 @@ public class SessionAdminAction extends SelectAction {
 		UserDao uDao=new UserDao();
 		this.taList=uDao.getTAs();
 		this.profList=uDao.getProfessors();
-		System.out.println(profList.size());
+		CourseDAO cDao=new CourseDAO();
+		this.courses = cDao.getCourses();
+		//System.out.println(this.courses.size());
 	    return SUCCESS;
 	}
 	
