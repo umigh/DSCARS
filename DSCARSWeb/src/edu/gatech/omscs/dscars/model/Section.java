@@ -1,5 +1,4 @@
 package edu.gatech.omscs.dscars.model;
-import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -34,8 +34,8 @@ public class Section implements java.io.Serializable {
 	private Date date;
 	private Program program;
 	private boolean offered=true;
-	private int generatedClassSize;
-	private int generatedTASize;
+	private Integer generatedClassSize;
+	private Integer generatedTASize;
 
 	public Section() {
 	}
@@ -175,21 +175,21 @@ public class Section implements java.io.Serializable {
 		this.offered = offered;
 	}
 
-	@Column(name = "GeneratedClassSize", nullable = false)
-	public int getGeneratedClassSize() {
+	@Column(name = "GeneratedClassSize", nullable = true)
+	public Integer getGeneratedClassSize() {
 		return generatedClassSize;
 	}
 
-	public void setGeneratedClassSize(int generatedClassSize) {
+	public void setGeneratedClassSize(Integer generatedClassSize) {
 		this.generatedClassSize = generatedClassSize;
 	}
 
-	@Column(name = "GeneratedTASize", nullable = false)
-	public int getGeneratedTASize() {
+	@Column(name = "GeneratedTASize", nullable = true)
+	public Integer getGeneratedTASize() {
 		return generatedTASize;
 	}
 
-	public void setGeneratedTASize(int generatedTASize) {
+	public void setGeneratedTASize(Integer generatedTASize) {
 		this.generatedTASize = generatedTASize;
 	}
 	

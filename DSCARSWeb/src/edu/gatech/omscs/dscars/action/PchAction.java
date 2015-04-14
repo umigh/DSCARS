@@ -27,6 +27,7 @@ public class PchAction extends SelectAction  {
 	int sectionId;
 	int pchSubIdcount;
 	String pchSubIds;
+	List<Integer> eligibleCourseList;
 	public PchAction() {
 		super();
 		student=new Student();
@@ -36,15 +37,23 @@ public class PchAction extends SelectAction  {
 
 	@SuppressWarnings("rawtypes")
 	public String execute() {
+		Map session = ActionContext.getContext().getSession();
+		User user=(User) session.get("user");
 		setLists();
 		setSectionList();
+		PchDAO dao=new PchDAO();
+		eligibleCourseList=dao.getEligibleCourses(user.getUserId());
+		for(int i=0;i<sections.size();i++) {
+			if(!eligibleCourseList.contains(((Section) sections.get(i)).getCourse().getCourseId())) {
+				sections.remove(i);
+			}
+		}
 		SectionDAO secDao=new SectionDAO();
 		/*
 		if(semesterId!=null && programId!=null)
 			sections=secDao.getSectionsOffered(semesterId, programId);
 		*/
-		Map session = ActionContext.getContext().getSession();
-		User user=(User) session.get("user");
+
 		StudentDao stDao=new StudentDao(); 
 		student=stDao.getStudent(user.getUserId());
 		pch=new PreferredCourseHistory();
@@ -62,7 +71,7 @@ public class PchAction extends SelectAction  {
 				}
 			}
 
-			PchDAO dao=new PchDAO();
+			
 			pch=dao.getStudentPch(programId, semesterId, user.getUserId());
 			Iterator<PchSub> iter=pch.getPchSubs().iterator();
 			while(iter.hasNext()) {

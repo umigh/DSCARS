@@ -1,5 +1,10 @@
 package edu.gatech.omscs.dscars.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,6 +67,28 @@ public class PchDAO {
 			session.delete(sub);
 		}
 		session.getTransaction().commit();
+	}
+	
+	@SuppressWarnings({ "deprecation" })
+	public List<Integer> getEligibleCourses(int studentId) {	
+		List<Integer> list=new ArrayList<Integer>();
+		try {
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			Connection con=session.connection();
+			PreparedStatement st=con.prepareStatement("select courseId from SectionAvailableToStudent where studentId=?");
+			st.setInt(1, studentId);
+			ResultSet rs=st.executeQuery();
+			
+			while(rs.next()) {
+				list.add(rs.getInt(1));
+			}
+			session.getTransaction().commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
 	}
 	
 	public PchSub updateSub(PchSub sub) {

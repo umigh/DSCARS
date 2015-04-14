@@ -41,6 +41,13 @@ public class TestData {
 		addSectionStudent();
 		addCoreEngineSetting();
 		*/
+		testEligigbleCourse();
+	}
+	
+	public static void testEligigbleCourse() {
+		PchDAO dao=new PchDAO();
+		List<Integer> list=dao.getEligibleCourses(903000001);
+		System.out.println(list);
 	}
 	
 	public static void addCoreEngineSetting() {
