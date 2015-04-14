@@ -123,6 +123,11 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 </s:iterator>
 </table>
 </div>
+<div style="margin-top: 10px; padding: 0 .9em;"  align="center">
+<s:if test="%{semesterId!=null and semesterId>0}">
+	<button type="submit" value="RunRecommendation" id="buttonName" name="buttonName" class="SavePch">Run Recommendation</button>
+</s:if>
+</div>
 <br/>
 <br/><br/>
 </s:form>
