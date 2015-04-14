@@ -15,11 +15,16 @@ public class Student implements java.io.Serializable {
 
 	private int studentId;
 	private int maxCoursesPerTerm;
+	private int numCoursesCompleted;
 	private Contact contact;
 
 	public Student() {
 	}
 
+	public Student(int studentId) {
+		this.studentId = studentId;
+	}
+	
 	public Student(int studentId, int maxCoursesPerTerm) {
 		this.studentId = studentId;
 		this.maxCoursesPerTerm = maxCoursesPerTerm;
@@ -54,5 +59,14 @@ public class Student implements java.io.Serializable {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
+	}
+
+	@Column(name = "NumCoursesCompleted", columnDefinition = "TINYINT")
+	public int getNumCoursesCompleted() {
+		return numCoursesCompleted;
+	}
+
+	public void setNumCoursesCompleted(int numCoursesCompleted) {
+		this.numCoursesCompleted = numCoursesCompleted;
 	}
 }

@@ -20,6 +20,10 @@ public class Instructor implements java.io.Serializable {
 
 	public Instructor() {
 	}
+	
+	public Instructor(int instructorId) {
+		this.instructorId = instructorId;
+	}
 
 	public Instructor(int instructorId,  boolean isProfessor,boolean active, int currentCourseCount) {
 		this.instructorId = instructorId;

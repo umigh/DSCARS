@@ -32,8 +32,7 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	private Integer pchId;
 	private Semester semester;
 	private Program program;
-	private int studentId;
-	private Contact contact;
+	private Student student;
 	private int numCoursesDesired;
 	private Date dateCreated;
 	private Set<PchSub> pchSubs = new HashSet<PchSub>(0);
@@ -41,16 +40,16 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	public PreferredCourseHistory() {
 	}
 
-	public PreferredCourseHistory(int studentId, int numCoursesDesired,
-			Date dateCreated) {
-		this.studentId = studentId;
+	public PreferredCourseHistory(int studentId, int numCoursesDesired,Date dateCreated) {
+		student=new Student();
+		student.setStudentId(studentId);
 		this.numCoursesDesired = numCoursesDesired;
 		this.dateCreated = dateCreated;
 	}
 
-	public PreferredCourseHistory(int studentId, int numCoursesDesired,
-			Date dateCreated, Set<PchSub> pchSubs) {
-		this.studentId = studentId;
+	public PreferredCourseHistory(int studentId, int numCoursesDesired,Date dateCreated, Set<PchSub> pchSubs) {
+		student=new Student();
+		student.setStudentId(studentId);
 		this.numCoursesDesired = numCoursesDesired;
 		this.dateCreated = dateCreated;
 		this.pchSubs = pchSubs;
@@ -87,13 +86,14 @@ public class PreferredCourseHistory implements java.io.Serializable {
 		this.pchId = pchId;
 	}
 
-	@Column(name = "StudentID")
-	public int getStudentId() {
-		return this.studentId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "studentId", insertable=true,updatable=true)
+	public Student getStudent() {
+		return this.student;
 	}
 
-	public void setStudentId(int studentId) {
-		this.studentId = studentId;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 	@Column(name = "Num_Courses_Desired", nullable = false)
@@ -124,15 +124,4 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	public void setPchSubs(Set<PchSub> pchSubs) {
 		this.pchSubs = pchSubs;
 	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "studentId", insertable=false,updatable=false)
-	public Contact getContact() {
-		return contact;
-	}
-
-	public void setContact(Contact contact) {
-		this.contact = contact;
-	}
-
 }
