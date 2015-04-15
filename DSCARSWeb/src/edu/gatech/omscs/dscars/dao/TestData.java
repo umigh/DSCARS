@@ -39,9 +39,10 @@ public class TestData {
 		setPchData();
 		addSectionTA();
 		addSectionStudent();
-		addCoreEngineSetting();
+		
 		*/
-		testEligigbleCourse();
+		//testEligigbleCourse();
+		addCoreEngineSetting();
 	}
 	
 	public static void testEligigbleCourse() {

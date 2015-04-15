@@ -113,12 +113,11 @@ public class PchDAO {
 		return PreferredCourseHistory;
 	}	
 
-	public PreferredCourseHistory getStudentPch(int programId, int semesterId, int studentId) {
+	public PreferredCourseHistory getStudentPchBySemester(int semesterId, int studentId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();/*lets hope an id of 1 exists!*/
-		String queryString = "from PreferredCourseHistory where programId = :programId and semesterId = :semesterId and studentId=:studentId ";
+		String queryString = "from PreferredCourseHistory where semesterId = :semesterId and studentId=:studentId ";
 		Query query = session.createQuery(queryString);
-		query.setInteger("programId", programId);
 		query.setInteger("semesterId", semesterId);
 		query.setInteger("studentId", studentId);
 		Object queryResult = query.uniqueResult();
@@ -126,15 +125,15 @@ public class PchDAO {
 		session.getTransaction().commit();
 		return PreferredCourseHistory;
 	}	
+		
 	
 	@SuppressWarnings("unchecked")
-	public List<PreferredCourseHistory> getStudentPch(int programId, int semesterId) {
+	public List<PreferredCourseHistory> getStudentPch(int semesterId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();	
 		List<PreferredCourseHistory> preferredCourseHistorys = null;
 		session.beginTransaction();/*lets hope an id of 1 exists!*/
-		String queryString = "from PreferredCourseHistory where programId = :programId and semesterId = :semesterId";
+		String queryString = "from PreferredCourseHistory where semesterId = :semesterId";
 		Query query = session.createQuery(queryString);
-		query.setInteger("programId", programId);
 		query.setInteger("semesterId", semesterId);
 		preferredCourseHistorys = query.list();
 		session.getTransaction().commit();

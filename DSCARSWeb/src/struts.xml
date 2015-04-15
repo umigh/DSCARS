@@ -13,7 +13,7 @@
         		<param name="actionName">pch</param>
     		</result>
     		<result name="admin" type="redirectAction">
-        		<param name="actionName">studentAdmin</param>
+        		<param name="actionName">summaryAdmin</param>
     		</result>
 			<result name="professor">professor.jsp</result>
 			<result name="TA">TA.jsp</result>
@@ -39,6 +39,10 @@
 			<result name="success">student_admin.jsp</result>
 			<result name="error">student_admin.jsp</result>
 			<result name="input">student_admin.jsp</result>			
+		</action>
+		
+	  	<action name="summaryAdmin" class="edu.gatech.omscs.dscars.action.SummaryAdminAction"  method="execute">
+			<result name="success">summary_admin.jsp</result>		
 		</action>
 		
 	  	<action name="logoff" class="edu.gatech.omscs.dscars.action.SecurityAction"  method="logoff">

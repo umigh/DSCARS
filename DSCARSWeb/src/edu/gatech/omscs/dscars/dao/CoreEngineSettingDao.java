@@ -99,7 +99,7 @@ public class CoreEngineSettingDao extends HibernateUtil {
 	public CoreEngineSetting getCoreEngineSettingBySemester(int activeSemesterId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();/*lets hope an id of 1 exists!*/
-		String queryString = "from CoreEngineSetting where activeSemester.semesterId = :activeSemesterId";
+		String queryString = "from CoreEngineSetting where activeSemester.semesterId = :activeSemesterId and status='New'";
 		Query query = session.createQuery(queryString);
 		query.setInteger("activeSemesterId", activeSemesterId);
 		Object queryResult = query.uniqueResult();

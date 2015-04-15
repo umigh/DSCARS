@@ -77,15 +77,7 @@
 <input type="hidden"  id="pchSubIdcount" name="pchSubIdcount" />
 <input type="hidden"  id="pchSubIds" name="pchSubIds" />
 <table>
-<tr><td>Program</td><td><s:select property="programId" 			
-            label="Select Prorgam"
-            list="programs"
-            name="programId"
-            listKey="programId"
-            listValue="programName"
-            emptyOption="false"
-			 theme="simple"/></td>
-            
+<tr>
             <td>Semester</td><td><s:select property="semesterId" id="semesterId"
             label="Semester"
             list="semesters"
@@ -128,8 +120,9 @@
 <tr class="ui-widget-header ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 <th hidden="true">Section Id</th>
 <th >Course</th>
+<th >Program</th>
 <th >Instructor</th>
-<th >Max Class Size</th>
+<th >Capacity</th>
 <th >Max TAs</th>
 <th >Demand</th>
 <th >Recommended</th>
@@ -140,6 +133,7 @@
   <tr class="ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
   		<td hidden="true"><s:property value="pchSubId"/> </td>
   		<td><s:property value="section.course.courseId+' '+section.course.courseName"/> </td>
+    	<td><s:property value="section.program.programName"/> </td>
     	<td><s:property value="section.instructor.name"/> </td>
     	<td><s:property value="section.maxClassSize"/> </td>
     	<td><s:property value="section.maxTas"/> </td>

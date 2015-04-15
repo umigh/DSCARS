@@ -66,7 +66,7 @@ public class PreferredCourseHistory implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "programId", nullable = false)
+	@JoinColumn(name = "programId", nullable = true)
 	public Program getProgram() {
 		return program;
 	}

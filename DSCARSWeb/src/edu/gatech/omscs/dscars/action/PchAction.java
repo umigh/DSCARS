@@ -53,7 +53,7 @@ public class PchAction extends SelectAction  {
 		}
 		
 
-		if(semesterId!=null && programId !=null)
+		if(semesterId!=null)
 			getPchList(user.getUserId());
 	
 		setLists();
@@ -112,7 +112,7 @@ public class PchAction extends SelectAction  {
 		}
 
 		
-		pch=dao.getStudentPch(programId, semesterId, user.getUserId());
+		pch=dao.getStudentPchBySemester(semesterId, user.getUserId());
 		Iterator<PchSub> iter=pch.getPchSubs().iterator();
 		while(iter.hasNext()) {
 			PchSub sub=iter.next();
@@ -128,18 +128,18 @@ public class PchAction extends SelectAction  {
 	
 	private void getPchList(int studentId) {
 		PchDAO dao=new PchDAO();
-		pch=dao.getStudentPch(programId, semesterId, studentId);
+		pch=dao.getStudentPchBySemester(semesterId, studentId);
 	}
 
 	public void addCourse(User user) {
 		PchDAO dao=new PchDAO();
-		PreferredCourseHistory pch=dao.getStudentPch(programId, semesterId, user.getUserId());
+		PreferredCourseHistory pch=dao.getStudentPchBySemester(semesterId, user.getUserId());
 		if(pch==null) {
 			pch=new PreferredCourseHistory(user.getUserId(), 1, new Date());
 			pch.setSemester(new Semester(semesterId));
-			pch.setProgram(new Program(programId));
+			//pch.setProgram(new Program(programId));
 			dao.add(pch);
-			pch=dao.getStudentPch(programId, semesterId, user.getUserId());
+			pch=dao.getStudentPchBySemester(semesterId, user.getUserId());
 		}
 		PchSub sub=new PchSub();
 		edu.gatech.omscs.dscars.model.Section section=new Section();
@@ -150,7 +150,7 @@ public class PchAction extends SelectAction  {
 		sub.setCreateUser(user.getUserName());
 		sub.setPriority(pch.getPchSubs().size()+1);
 		dao.addSub(sub);
-		pch=dao.getStudentPch(programId, semesterId, user.getUserId());
+		pch=dao.getStudentPchBySemester(semesterId, user.getUserId());
 	}
 	
 	

@@ -59,15 +59,7 @@
 <s:form action="studentAdmin" method="post">
 <input type="hidden"  id="pchSubIds" name="pchSubIds" />
 <table id="selectTable">
-<tr><td>Program</td><td><s:select property="programId" 
-            label="Select Prorgam"
-            list="programs"
-            name="programId"
-            listKey="programId"
-            listValue="programName"
-            emptyOption="false"
-			 theme="simple"/></td>
-            
+<tr>
             <td>Semester</td><td><s:select property="semesterId" id="semesterId"
             label="Semester"
             list="semesters"
@@ -89,9 +81,10 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 <tr class="ui-widget-header ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 <th>Student</th>
 <th >Course</th>
+<th >Program</th>
 <th >Priority</th>
 <th >Instructor</th>
-<th >Max Class Size</th>
+<th >Capacity</th>
 <th >Max TAs</th>
 <th >Demand</th>
 <th >Recommended</th>
@@ -104,6 +97,7 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 	  <tr class="ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 	  		<td><s:property value="student.contact.firstName+' '+student.contact.lastName"/> </td>
 	  		<td><s:property value="section.course.courseId+' '+section.course.courseName"/> </td>
+	  		<td><s:property value="section.program.programName"/> </td>
 	    	<td align="center"><s:property value="priority"/> </td>
 	    	<td><s:property value="section.instructor.name"/> </td>
 	    	<td><s:property value="section.maxClassSize"/> </td>

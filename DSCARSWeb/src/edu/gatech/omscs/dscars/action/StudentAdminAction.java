@@ -29,14 +29,12 @@ public class StudentAdminAction extends SelectAction {
 		Map session = ActionContext.getContext().getSession();
 		User user=(User) session.get("user");
 		setLists();
-		SectionDAO secDao=new SectionDAO();
 		if ("RunRecommendation".equals(buttonName)) {
 			runRecommendation(user);
 	    }
-		if(semesterId!=null && programId!=null) {
-			sections=secDao.getAllSections(semesterId, programId);
+		if(semesterId!=null) {
 			PchDAO dao=new PchDAO();
-			pchList=dao.getStudentPch(programId, semesterId);
+			pchList=dao.getStudentPch(semesterId);
 		}
 	    return SUCCESS;
 	}

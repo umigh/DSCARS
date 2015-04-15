@@ -10,8 +10,24 @@
   <script src="external/jquery/jquery.js"></script>
   <script src="jquery-ui.min.js"></script>
   <script>
-		$(document).ready(function(){
-
+		$(document).ready(function(){			
+			$('#summaryAdmin').on('click', function() {	
+				var link = $("#summaryAdmin").attr("href");
+             	link = link +'?semesterId=' + $('#semesterId').val();
+            	$("#summaryAdmin").attr("href", link);
+        	});
+        	
+        	$('#sessionAdmin').on('click', function() {	
+				var link = $("#sessionAdmin").attr("href");
+             	link = link +'?semesterId=' + $('#semesterId').val();
+            	$("#sessionAdmin").attr("href", link);
+        	});
+        	
+        	$('#studentAdmin').on('click', function() {	
+				var link = $("#studentAdmin").attr("href");
+             	link = link +'?semesterId=' + $('#semesterId').val();
+            	$("#studentAdmin").attr("href", link);
+        	});
 		});
    </script>
 
@@ -23,9 +39,10 @@
 </head>
 <body>     
 <ul class="ui-widget-header  ui-corner-all" style="margin-bottom: 10px; padding: 0 .9em;" >
-  <li><a href="sessionAdmin"><font size="2">Sessions</font></a>&nbsp&nbsp</li>
-  <li><a href="instructor_admin.jsp"><font size="2">Instructors</font></a>&nbsp&nbsp</li>
-  <li><a href="studentAdmin"><font size="2">Students</font></a>&nbsp&nbsp</li>
+  <li><a id="summaryAdmin" href="summaryAdmin" class="menuItem"><font size="2">Summary</font></a>&nbsp&nbsp</li>
+  <li><a id="sessionAdmin" href="sessionAdmin" class="menuItem"><font size="2">Sessions</font></a>&nbsp&nbsp</li>
+  <li><a id="summaryAdmin" href="instructor_admin.jsp" class="menuItem"><font size="2">Instructors</font></a>&nbsp&nbsp</li>
+  <li><a id="studentAdmin" href="studentAdmin" class="menuItem"><font size="2">Students</font></a>&nbsp&nbsp</li>
   <li><a href="logoff"><font size="2">Logoff</font></a>&nbsp&nbsp</li>
 </ul>
 </body>

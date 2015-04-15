@@ -44,8 +44,9 @@ public class SelectAction extends ActionSupport {
 	
 	protected void setSectionList() {
 		SectionDAO secDao=new SectionDAO();
-		if(semesterId!=null && programId!=null)
-			sections=secDao.getSectionsOffered(semesterId, programId);
+		if(semesterId!=null)
+			//sections=secDao.getSectionsOffered(semesterId, programId);
+			sections=secDao.getSectionsOffered(semesterId);
 	}
 	
 	public SelectAction() {

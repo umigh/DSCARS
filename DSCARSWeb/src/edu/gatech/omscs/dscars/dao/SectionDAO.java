@@ -88,15 +88,14 @@ public class SectionDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Section> getSectionsOffered(int semesterId, int programId) {
+	public List<Section> getSectionsOffered(int semesterId) {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<Section> sections = null;
 		try {			
-			Query query = session.createQuery("from Section where semester.semesterId = :semesterId and program.programId=:programId and offered='Y'");
+			Query query = session.createQuery("from Section where semester.semesterId = :semesterId and offered='Y'");
 			query.setInteger("semesterId", semesterId);
-			query.setInteger("programId", programId);
 			sections = (List<Section>) query.list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
