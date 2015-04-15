@@ -135,8 +135,8 @@
   		<td><s:property value="section.course.courseId+' '+section.course.courseName"/> </td>
     	<td><s:property value="section.program.programName"/> </td>
     	<td><s:property value="section.instructor.name"/> </td>
-    	<td><s:property value="section.maxClassSize"/> </td>
-    	<td><s:property value="section.maxTas"/> </td>
+    	<td><s:property value="section.studentCapacity"/> </td>
+    	<td><s:property value="section.taCapacity"/> </td>
     	<td><s:property value="section.courseDemand"/> </td>
     	<td align="center" >
     	<s:if test="%{recommendedDate!=null}">

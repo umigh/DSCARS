@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -42,7 +43,8 @@ public class TestData {
 		
 		*/
 		//testEligigbleCourse();
-		addCoreEngineSetting();
+		//addCoreEngineSetting();
+		loadTestData();
 	}
 	
 	public static void testEligigbleCourse() {
@@ -165,6 +167,110 @@ public class TestData {
 		
 		pch.setPchSubs(pchset);
 		pdao.add(pch);
+	}
+	
+	public static void loadTestData() {
+		ContactDao cdao=new ContactDao();
+		StudentDao sdao=new StudentDao();
+		Student s=null;
+		User user=null;
+		UserDao udao=new UserDao();
+		SectionDAO secdao=new SectionDAO();
+		PchDAO pchdao=new PchDAO();
+		
+		//Semester1: 2015 Summer
+		//Only one subject is allowed.
+		//int semesterid=1;
+		//Semester sem=new Semester(semesterid);
+		PreferredCourseHistory pch=null;
+		int sectionIndex=0;		
+		for(int i=0;i<350;i++) {
+			int id=903000100+i;
+			Contact contact=new Contact(id,"Student", ""+i,"student"+i+"@gatech.edu");
+			cdao.add(contact);
+			s=new Student(id,2);
+			sdao.add(s);
+			user=new User(id, "student"+i, "Student", "dscars");
+			udao.add(user);
+			
+			
+			//PCH for semester1: 2015 Summer
+			pch=new PreferredCourseHistory();
+			pch.setDateCreated(new Date());
+			pch.setNumCoursesDesired(randInt(1,2));
+			pch.setStudent(s);
+			pch.setSemester(new Semester(1));
+			pch.setDateCreated(new Date());
+
+			
+			Set<PchSub> pchset=new HashSet<PchSub>();
+			List<Integer> sectionIds=new ArrayList<Integer>();
+			for(int j=0;j<2;j++) {
+				PchSub sub=new PchSub(); 
+				int sectionId=randInt(1,4);
+				while(true) {
+					if(sectionIds.contains(sectionId)) 
+						sectionId=randInt(1,4);
+					else 
+						break;
+				}
+				sectionIds.add(sectionId);
+				sub.setSection(new Section(sectionId));
+				sub.setPriority(j+1);
+				sub.setCreateDate(new Date());
+				sub.setCreateUser("uma");
+				pchset.add(sub);
+			}
+			
+			pch.setPchSubs(pchset);
+			pchdao.add(pch);
+			
+			/*
+			//PCH for semester1: 2015 Fall
+			pch=new PreferredCourseHistory();
+			pch.setDateCreated(new Date());
+			pch.setNumCoursesDesired(2);
+			pch.setStudent(s);
+			pch.setSemester(new Semester(2));
+			pch.setDateCreated(new Date());
+
+			
+			pchset=new HashSet<PchSub>();
+			sectionIds=new ArrayList<Integer>();
+			for(int j=0;j<2;j++) {
+				PchSub sub=new PchSub(); 
+				int sectionId=randInt(1,4);
+				while(true) {
+					if(sectionIds.contains(sectionId)) 
+						sectionId=randInt(1,4);
+					else 
+						break;
+				}
+				sectionIds.add(sectionId);
+				sub.setSection(new Section(sectionId));
+				sub.setPriority(j+1);
+				sub.setCreateDate(new Date());
+				sub.setCreateUser("uma");
+				pchset.add(sub);
+			}
+			
+			pch.setPchSubs(pchset);
+			pchdao.add(pch);
+			*/
+		}
+	}
+	
+	public static int randInt(int min, int max) {
+
+	    // NOTE: Usually this should be a field rather than a method
+	    // variable so that it is not re-seeded every call.
+	    Random rand = new Random();
+
+	    // nextInt is normally exclusive of the top value,
+	    // so add 1 to make it inclusive
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
 	}
 
 	private static void sectionData() {

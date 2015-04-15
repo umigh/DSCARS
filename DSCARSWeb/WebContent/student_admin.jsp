@@ -69,7 +69,13 @@
             emptyOption="false"
             headerKey="-1"
             headerValue="Select Semester" theme="simple"/></td>
-            <td><a class="go" href="javascript:void(0)"><span class="ui-icon ui-icon-circle-triangle-e"></span></a></td>
+            <td>
+<s:if test="%{semesterId!=null and semesterId>0}">
+	<button type="submit" value="RunRecommendation" id="buttonName" name="buttonName" class="SavePch" class="ui-icon ui-icon-circle-triangle-e">Run Recommendations</button>
+</s:if>
+</td>
+
+            
      </tr>
 </table>
 <br/>
@@ -80,6 +86,7 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 <table id="studentPchTable">
 <tr class="ui-widget-header ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 <th>Student</th>
+<th width="5%">Desired num of courses</th>
 <th >Course</th>
 <th >Program</th>
 <th >Priority</th>
@@ -96,19 +103,20 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 	<s:iterator value="pchSubs" status="pchSub">
 	  <tr class="ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 	  		<td><s:property value="student.contact.firstName+' '+student.contact.lastName"/> </td>
+	  		<td align="center"><s:property value="numCoursesDesired"/> </td>
 	  		<td><s:property value="section.course.courseId+' '+section.course.courseName"/> </td>
 	  		<td><s:property value="section.program.programName"/> </td>
 	    	<td align="center"><s:property value="priority"/> </td>
 	    	<td><s:property value="section.instructor.name"/> </td>
-	    	<td><s:property value="section.maxClassSize"/> </td>
-	    	<td><s:property value="section.maxTas"/> </td>
+	    	<td><s:property value="section.studentCapacity"/> </td>
+	    	<td><s:property value="section.taCapacity"/> </td>
 	    	<td><s:property value="section.courseDemand"/> </td>
-	    	<td align="center">
+	    	<td align="center" >
 	    	<s:if test="%{recommendedDate!=null}">
-	    	<input type="checkbox" name="recommended" value="true" checked>
+	    	<input type="checkbox" name="recommended" value="true" disabled="disabled" checked="checked" >
 	    	</s:if>
 	    	<s:else>
-	    	<input type="checkbox" name="recommended" value="false">
+	    	<input type="checkbox" name="recommended" value="false" disabled="disabled">
 	    	</s:else>
 	    	</td>
 	    	<td><s:property value="section.date"/> </td>
@@ -116,11 +124,6 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 	</s:iterator>
 </s:iterator>
 </table>
-</div>
-<div style="margin-top: 10px; padding: 0 .9em;"  align="center">
-<s:if test="%{semesterId!=null and semesterId>0}">
-	<button type="submit" value="RunRecommendation" id="buttonName" name="buttonName" class="SavePch">Run Recommendation</button>
-</s:if>
 </div>
 <br/>
 <br/><br/>

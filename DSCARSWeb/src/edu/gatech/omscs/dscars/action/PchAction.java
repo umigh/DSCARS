@@ -15,10 +15,10 @@ import edu.gatech.omscs.dscars.exception.SettingLockedException;
 import edu.gatech.omscs.dscars.model.CoreEngineSetting;
 import edu.gatech.omscs.dscars.model.PchSub;
 import edu.gatech.omscs.dscars.model.PreferredCourseHistory;
-import edu.gatech.omscs.dscars.model.Program;
 import edu.gatech.omscs.dscars.model.Section;
 import edu.gatech.omscs.dscars.model.Semester;
 import edu.gatech.omscs.dscars.model.User;
+import edu.gatech.omscs.dscars.solver.CoreEngine;
 
 
 
@@ -28,6 +28,7 @@ public class PchAction extends SelectAction  {
 	int sectionId;
 	int pchSubIdcount;
 	String pchSubIds;
+	int numCoursesDesired;
 	List<Integer> eligibleCourseList;
 	public PchAction() {
 		super();
@@ -40,7 +41,7 @@ public class PchAction extends SelectAction  {
 		Map session = ActionContext.getContext().getSession();
 		User user=(User) session.get("user");
 		PchDAO dao=new PchDAO();
-		
+		numCoursesDesired=pch.getNumCoursesDesired();
 		pch=new PreferredCourseHistory();
 		if ("AddCourse".equals(buttonName)) {
 	         addCourse(user);
@@ -93,8 +94,11 @@ public class PchAction extends SelectAction  {
 		CoreEngineSettingDao coedao=new CoreEngineSettingDao();
 		
 		try {
-			coedao.addOrUpdate(setting);
-			addActionMessage("A core engine job is schedule to run recommendations. Please check results in a minute.");
+			setting=coedao.addOrUpdate(setting);
+			CoreEngine engine=new CoreEngine(setting);
+			engine.solve();
+			//addActionMessage("A core engine job is schedule to run recommendations. Please check results in a minute.");
+			addActionMessage("Core engine has been run successfully abd recommendations are shown below.");
 		} catch (SettingLockedException e) {
 			System.out.println(e);
 			addActionError("A scheduled core engine job is already running recommendations. Please check results in a minute.");
@@ -124,6 +128,8 @@ public class PchAction extends SelectAction  {
 				dao.updateSub(sub);
 			}
 		}
+		pch.setNumCoursesDesired(numCoursesDesired);
+		dao.update(pch);
 	}
 	
 	private void getPchList(int studentId) {
@@ -151,6 +157,8 @@ public class PchAction extends SelectAction  {
 		sub.setPriority(pch.getPchSubs().size()+1);
 		dao.addSub(sub);
 		pch=dao.getStudentPchBySemester(semesterId, user.getUserId());
+		pch.setNumCoursesDesired(numCoursesDesired);
+		dao.update(pch);
 	}
 	
 	

@@ -28,7 +28,19 @@ public class SectionStudentDao extends HibernateUtil {
 		query.setParameter("sectionId", sectionId);
 		int result = query.executeUpdate();
 		if (result > 0) {
-		    System.out.println("section students were removed");
+		    //System.out.println("section students were removed");
+		}
+		session.getTransaction().commit();
+	}
+	
+	public void deleteAll() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("delete SectionStudent");
+
+		int result = query.executeUpdate();
+		if (result > 0) {
+		    //System.out.println("section students were removed");
 		}
 		session.getTransaction().commit();
 	}

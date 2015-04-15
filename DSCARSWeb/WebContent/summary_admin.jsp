@@ -90,9 +90,9 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 	  <tr class="ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 	  		<td><s:property value="course.courseId+' '+course.courseName"/> </td>
 	    	<td><s:property value="courseDemand"/> </td>
-	    	<td><s:property value="maxClassSize"/> </td>
-	    	<td><s:property value="courseDemand-maxClassSize"/> </td>
-	    	<td><s:property value="(100*(courseDemand-maxClassSize))/maxClassSize"/> </td>
+	    	<td><s:property value="studentCapacity"/> </td>
+	    	<td><s:property value="courseDemand-studentCapacity"/> </td>
+	    	<td><s:property value="(100*(courseDemand-studentCapacity))/studentCapacity"/> </td>
 	  </tr>
 </s:iterator>
 </table>

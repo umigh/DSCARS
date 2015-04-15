@@ -1,5 +1,6 @@
 package edu.gatech.omscs.dscars.model;
 import java.beans.Transient;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.CascadeType;

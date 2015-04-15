@@ -101,6 +101,20 @@ public class PchDAO {
 		return sub;
 	}
 	
+	public void recommendPchSub(int studentId, int sectionId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();/*lets hope an id of 1 exists!*/
+		String queryString = "from PchSub where section.sectionId = :sectionId and preferredCourseHistory.student.studentId=:studentId";
+		Query query = session.createQuery(queryString);
+		query.setInteger("sectionId", sectionId);
+		query.setInteger("studentId", studentId);
+		Object queryResult = query.uniqueResult();
+		PchSub pchSub = (PchSub)queryResult;
+		pchSub.setRecommendedDate(new Date());
+		session.update(pchSub);
+		session.getTransaction().commit();
+	}
+	
 	public PreferredCourseHistory getpch(int pchId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();/*lets hope an id of 1 exists!*/

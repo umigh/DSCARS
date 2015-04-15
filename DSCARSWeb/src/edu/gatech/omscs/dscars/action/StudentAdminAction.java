@@ -12,6 +12,7 @@ import edu.gatech.omscs.dscars.exception.SettingLockedException;
 import edu.gatech.omscs.dscars.model.CoreEngineSetting;
 import edu.gatech.omscs.dscars.model.PreferredCourseHistory;
 import edu.gatech.omscs.dscars.model.User;
+import edu.gatech.omscs.dscars.solver.CoreEngine;
 
 
 
@@ -44,8 +45,11 @@ public class StudentAdminAction extends SelectAction {
 		CoreEngineSettingDao coedao=new CoreEngineSettingDao();
 		
 		try {
-			coedao.addOrUpdate(setting);
-			addActionMessage("A core engine job is schedule to run recommendations. Please check results in a minute.");
+			setting=coedao.addOrUpdate(setting);
+			CoreEngine engine=new CoreEngine(setting);
+			engine.solve();
+			//addActionMessage("A core engine job is schedule to run recommendations. Please check results in a minute.");
+			addActionMessage("Core engine has been run successfully abd recommendations are shown below.");
 		} catch (SettingLockedException e) {
 			System.out.println(e);
 			addActionError("A scheduled core engine job is already running recommendations. Please check results in a minute.");

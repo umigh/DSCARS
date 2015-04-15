@@ -2,12 +2,15 @@ package edu.gatech.omscs.dscars.dao;
 
 
 import java.util.Date;
+import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
 import edu.gatech.omscs.dscars.exception.SettingLockedException;
 import edu.gatech.omscs.dscars.model.CoreEngineSetting;
+import edu.gatech.omscs.dscars.model.Semester;
 import edu.gatech.omscs.dscars.util.HibernateUtil;
 
 public class CoreEngineSettingDao extends HibernateUtil {
@@ -44,7 +47,7 @@ public class CoreEngineSettingDao extends HibernateUtil {
 			setting.setShadow(coreEngineSetting.isShadow());
 			setting.setStatus(CoreEngineSetting.NEW);
 			setting.setUpdateDate(new Date());
-			coreEngineSetting=null;
+			coreEngineSetting=setting;
 			session.update(setting);			
 		}
 		session.getTransaction().commit();
@@ -107,4 +110,20 @@ public class CoreEngineSettingDao extends HibernateUtil {
 		session.getTransaction().commit();
 		return coreEngineSetting;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CoreEngineSetting> getAllNewCoreEngineSetting() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<CoreEngineSetting> settings = null;
+		try {
+			settings = (List<CoreEngineSetting>) session.createQuery("from CoreEngineSetting where status='New'").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return settings;
+	}	
 }
