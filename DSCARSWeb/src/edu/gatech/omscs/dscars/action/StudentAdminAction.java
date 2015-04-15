@@ -49,7 +49,7 @@ public class StudentAdminAction extends SelectAction {
 			CoreEngine engine=new CoreEngine(setting);
 			engine.solve();
 			//addActionMessage("A core engine job is schedule to run recommendations. Please check results in a minute.");
-			addActionMessage("Core engine has been run successfully abd recommendations are shown below.");
+			addActionMessage("Core engine has been run successfully and recommendations are shown below.");
 		} catch (SettingLockedException e) {
 			System.out.println(e);
 			addActionError("A scheduled core engine job is already running recommendations. Please check results in a minute.");
