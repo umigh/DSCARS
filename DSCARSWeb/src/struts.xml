@@ -27,8 +27,8 @@
 			<result name="input">pch.jsp</result>
 		</action>
 		
-	   	<action name="sessionAdmin" class="edu.gatech.omscs.dscars.action.SessionAdminAction"  method="execute">
-			<result name="success">session_admin.jsp</result>
+	   	<action name="sectionAdd" class="edu.gatech.omscs.dscars.action.SectionAddAction"  method="execute">
+			<result name="success">section_add.jsp</result>
 		</action>
 		
 	   	<action name="instructorAdmin" class="edu.gatech.omscs.dscars.action.InstructorAdminAction"  method="execute">

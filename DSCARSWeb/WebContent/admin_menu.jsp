@@ -18,9 +18,9 @@
         	});
         	
         	$('#sessionAdmin').on('click', function() {	
-				var link = $("#sessionAdmin").attr("href");
+				var link = $("#sectionAdd").attr("href");
              	link = link +'?semesterId=' + $('#semesterId').val();
-            	$("#sessionAdmin").attr("href", link);
+            	$("#sectionAdd").attr("href", link);
         	});
         	
         	$('#studentAdmin').on('click', function() {	
@@ -40,7 +40,7 @@
 <body>     
 <ul class="ui-widget-header  ui-corner-all" style="margin-bottom: 10px; padding: 0 .9em;" >
   <li><a id="summaryAdmin" href="summaryAdmin" class="menuItem"><font size="2">Summary</font></a>&nbsp&nbsp</li>
-  <li><a id="sessionAdmin" href="sessionAdmin" class="menuItem"><font size="2">Sessions</font></a>&nbsp&nbsp</li>
+  <li><a id="sectionAdd" href="sectionAdd" class="menuItem"><font size="2">Sections</font></a>&nbsp&nbsp</li>
   <li><a id="summaryAdmin" href="instructor_admin.jsp" class="menuItem"><font size="2">Instructors</font></a>&nbsp&nbsp</li>
   <li><a id="studentAdmin" href="studentAdmin" class="menuItem"><font size="2">Students</font></a>&nbsp&nbsp</li>
   <li><a href="logoff"><font size="2">Logoff</font></a>&nbsp&nbsp</li>

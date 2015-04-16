@@ -61,6 +61,42 @@ public class InstructorDao extends HibernateUtil {
 		return instructors;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Instructor> professorList() {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<Instructor> instructors = null;
+		try {
+			
+			instructors = (List<Instructor>) session.createQuery("from Instructor where IsProfessor = 1").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return instructors;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Instructor> taList() {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<Instructor> instructors = null;
+		try {
+			
+			instructors = (List<Instructor>) session.createQuery("from Instructor where IsProfessor = 0").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return instructors;
+	}
+	
 	public Instructor getInstructor(int instructorId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();/*lets hope an id of 1 exists!*/
@@ -71,21 +107,5 @@ public class InstructorDao extends HibernateUtil {
 		Instructor instructor = (Instructor)queryResult;
 		session.getTransaction().commit();
 		return instructor;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Instructor> listTAs() {
-		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		List<Instructor> instructors = null;
-		try {
-			instructors = (List<Instructor>) session.createQuery("from Instructor where isProfessor='N'").list();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		session.getTransaction().commit();
-		return instructors;
 	}
 }
