@@ -23,7 +23,8 @@ public class SectionAddAction extends SelectAction {
 	List<Integer> taInsertList;
 	int instructorId;
 	int courseId;
-	int maxClassSize;
+	//int maxClassSize;
+	String maxClassSize;
 	int sectionId;
 	boolean offered;
 	Section section;
@@ -33,7 +34,7 @@ public class SectionAddAction extends SelectAction {
 		super();
 		programId = 0;
 		semesterId = 0;
-		maxClassSize = 0;
+		//maxClassSize = 0;
 		instructorId = 0;
 		courseId = 0;
 		sectionId = 0;
@@ -70,9 +71,16 @@ public class SectionAddAction extends SelectAction {
 			program.setProgramId(programId);
 			semester.setSemesterId(semesterId);
 			
+			if ("".equals(maxClassSize)){
+				section.setMaxClassSize(0);
+			}
+			else {
+				section.setMaxClassSize(Integer.parseInt(maxClassSize));
+			}
+			
 			section.setCourse(course);
 			section.setInstructor(instructor);
-			section.setMaxClassSize(maxClassSize);
+			//section.setMaxClassSize(maxClassSize);
 			section.setMaxTas(100);
 			section.setOffered(offered);
 			section.setProgram(program);
@@ -116,11 +124,11 @@ public class SectionAddAction extends SelectAction {
 		this.profList = profList;
 	}	
 	
-	public int getMaxClassSize() {
+	public String getMaxClassSize() {
 		return maxClassSize;
 	}
 	
-	public void setMaxClassSize(int maxClassSize) {
+	public void setMaxClassSize(String maxClassSize) {
 		this.maxClassSize = maxClassSize;
 	}
 	
@@ -187,6 +195,15 @@ public class SectionAddAction extends SelectAction {
 			else if (this.getTaInsertList().size() < 1) {
 				isValid = false;
 				addActionError("You must select at least one TA.");
+			}
+			else if (!"".equals(this.maxClassSize))
+			{
+				try {
+					Integer.parseInt(this.maxClassSize);
+				} catch(NumberFormatException e){
+					addActionError("Max class size must be a numberr.");
+					isValid = false;
+				}
 			}
 		}
 		return isValid;

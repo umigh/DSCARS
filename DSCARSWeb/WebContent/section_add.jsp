@@ -56,7 +56,7 @@
                         emptyOption="false"
                         headerKey="-1"
                         headerValue="Select Course"/>
-                    <s:textfield name="maxClassSize" label="Capacity" value="200"/>
+                    <s:textfield name="maxClassSize" label="Capacity"/>
                     <s:checkbox name="offered" fieldValue="true" label="Offered?" />
                     <s:select   label="Professor"
                         list="profList"
