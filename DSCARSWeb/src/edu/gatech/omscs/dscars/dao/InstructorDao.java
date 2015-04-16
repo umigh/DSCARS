@@ -108,4 +108,21 @@ public class InstructorDao extends HibernateUtil {
 		session.getTransaction().commit();
 		return instructor;
 	}
+	
+	public List<Instructor> listTAs() {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<Instructor> instructors = null;
+		try {
+			
+			instructors = (List<Instructor>) session.createQuery("from Instructor where isProfessor='N'").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return instructors;
+	}
 }
