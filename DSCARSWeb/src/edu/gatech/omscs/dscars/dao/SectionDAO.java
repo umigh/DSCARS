@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
 import edu.gatech.omscs.dscars.model.Section;
+import edu.gatech.omscs.dscars.model.SectionTA;
 import edu.gatech.omscs.dscars.util.HibernateUtil;
 
 public class SectionDAO {
@@ -16,7 +17,7 @@ public class SectionDAO {
 		session.beginTransaction();
 		session.save(section);
 		session.getTransaction().commit();
-		return section;
+		return getSection(section.getSectionId());
 	}
 	
 	public Section update(Section section) {
@@ -27,11 +28,18 @@ public class SectionDAO {
 		return section;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Section delete(Integer sectionId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		Section section = (Section) session.load(Section.class, sectionId);
 		if(null != section) {
+			Query query=session.createQuery("from SectionTA where sectionId=:sectionId");
+			query.setInteger("sectionId", sectionId);
+			List<SectionTA> sectionTAs = query.list();
+			for(int i=0;i<sectionTAs.size();i++) {
+				session.delete(sectionTAs.get(i));
+			}
 			session.delete(section);
 		}
 		session.getTransaction().commit();

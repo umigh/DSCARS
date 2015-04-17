@@ -73,7 +73,7 @@
 <%@include file="header.jsp" %>
 <div class="ui-widget" >
 <div class="ui-widget-content ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
-<h2>Student Preferences Course History.</h2>	
+<h2>Student Preferred Courses</h2>	
 <s:form action="pch" method="post">
 <input type="hidden"  id="pchSubIdcount" name="pchSubIdcount" />
 <input type="hidden"  id="pchSubIds" name="pchSubIds" />

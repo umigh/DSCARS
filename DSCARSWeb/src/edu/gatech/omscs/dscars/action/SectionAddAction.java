@@ -44,7 +44,12 @@ public class SectionAddAction extends SelectAction {
 		taInsertList = new ArrayList<Integer>();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public String execute() {
+		SectionDAO sDao = new SectionDAO();
+		if ("edit".equals(buttonName)) {
+			section=sDao.getSection(sectionId);
+		}
 		setLists();
 		
 		InstructorDao iDao=new InstructorDao();
@@ -94,7 +99,7 @@ public class SectionAddAction extends SelectAction {
 			System.out.println("Semester " + section.getSemester().getSemesterId());
 			System.out.println("Offered " + section.isOffered());
 			
-			SectionDAO sDao = new SectionDAO();
+			
 			SectionTADAO secTaDao = new SectionTADAO();
 			Section newSection = sDao.add(section);
 			
@@ -104,6 +109,9 @@ public class SectionAddAction extends SelectAction {
 				SectionTA sta = new SectionTA(newSection.getSectionId(),instructorId,false);
 				secTaDao.add(sta);
 			}
+			//Course course=Course.getSection(section.)
+			addActionMessage("The course "+newSection.getCourse().getCourseId()+" "+newSection.getCourse().getCourseName()+"has been added sucessfully!");
+			return "sectionAdmin";
 		}
 		return SUCCESS;
 	}

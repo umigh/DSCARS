@@ -25,8 +25,14 @@
     <body>
         <%@include file="header.jsp" %>          
         <%@include file="admin_menu.jsp" %>
-        <h1>Section Management</h1>
         <div class="ui-widget-content ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
+         <s:if test="%{buttonName=='edit'}">
+		    	<h2>Edit Course</h2>
+		 </s:if>    
+		 <s:if test="%{buttonName=='add'}">
+		    	<h2>Add Course</h2>
+		 </s:if>
+        
             <s:form action="sectionAdd" method="post">
                 
                     <s:select property="programId" 
@@ -108,11 +114,13 @@
                             </td>
                         </tr>
                     </table>
+                    <br/>
+                    <div style="margin-top: 10px; padding: 0 .9em;"  align="center">
+                    	<button type="submit" value="SaveSection" id="buttonName" name="buttonName" class="SavePch">Add Section</button>
+                    	<input type="button" class="button" onclick="javascript:history.go(-1)" value="Go back" />
+                	</div>
+                	<br/>
                 	</DIV>
-                <br/>
-                <div style="margin-top: 10px; padding: 0 .9em;"  align="center">
-                    <button type="submit" value="SaveSection" id="buttonName" name="buttonName" class="SavePch">Add Section</button>
-                </div>
                 <br/>
             </s:form>
         </div>
