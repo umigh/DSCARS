@@ -6,12 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 import edu.gatech.omscs.dscars.model.PchSub;
 import edu.gatech.omscs.dscars.model.PreferredCourseHistory;
@@ -91,6 +97,32 @@ public class PchDAO {
 			e.printStackTrace();
 		}
 		return  list;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public Map<Integer,Integer> getDemand() {
+		Map<Integer,Integer> demand = new HashMap<Integer,Integer>();
+		try {
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+		    Criteria criteria = session.createCriteria(PchSub.class);
+		    //criteria.add(Restrictions.eq("section.semester", semesterId));
+		    ProjectionList projectionList = Projections.projectionList();
+		    projectionList.add(Projections.groupProperty("section.sectionId"));
+		    projectionList.add(Projections.rowCount());
+		    criteria.setProjection(projectionList);
+		    List list = criteria.list();
+		    Iterator iter = list.iterator();
+	        while (iter.hasNext()) {
+	            Object[] obj = (Object[]) iter.next();
+	            Integer sectionId = (Integer) obj[0];	            
+		        demand.put(sectionId, (Integer) obj[1]);
+	        }
+		    session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	    
+	    return demand;
 	}
 	
 	public PchSub updateSub(PchSub sub) {

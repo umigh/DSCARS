@@ -7,7 +7,6 @@ import com.opensymphony.xwork2.ActionContext;
 
 import edu.gatech.omscs.dscars.dao.CoreEngineSettingDao;
 import edu.gatech.omscs.dscars.dao.PchDAO;
-import edu.gatech.omscs.dscars.dao.SectionDAO;
 import edu.gatech.omscs.dscars.exception.SettingLockedException;
 import edu.gatech.omscs.dscars.model.CoreEngineSetting;
 import edu.gatech.omscs.dscars.model.PreferredCourseHistory;
@@ -36,6 +35,7 @@ public class StudentAdminAction extends SelectAction {
 		if(semesterId!=null) {
 			PchDAO dao=new PchDAO();
 			pchList=dao.getStudentPch(semesterId);
+			setSectionList();
 		}
 	    return SUCCESS;
 	}

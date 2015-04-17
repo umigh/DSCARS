@@ -79,8 +79,11 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 <table id="studentPchTable">
 <tr class="ui-widget-header ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 <th >Course</th>
+<th >Program</th>
+<th >Instructor</th>
+<th >Max Class Size</th>
+<th width="10%"> Recommended Class Size</th>
 <th >Demand</th>
-<th >Capacity</th>
 <th >Over/Under</th>
 <th >%Over</th>
 </tr>
@@ -89,10 +92,13 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 <s:iterator value="sections" status="section">
 	  <tr class="ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 	  		<td><s:property value="course.courseId+' '+course.courseName"/> </td>
-	    	<td><s:property value="courseDemand"/> </td>
-	    	<td><s:property value="studentCapacity"/> </td>
-	    	<td><s:property value="courseDemand-studentCapacity"/> </td>
-	    	<td><s:property value="(100*(courseDemand-studentCapacity))/studentCapacity"/> </td>
+	  		<td><s:property value="program.programName"/> </td>
+	    	<td><s:property value="instructor.contact.firstName+' '+instructor.contact.lastName"/> </td>
+	    	<td align="center"><s:property value="maxClassSize"/> </td>
+	    	<td align="center"><s:property value="generatedClassSize"/> </td>
+	    	<td align="center"><s:property value="%{demand[sectionId]}"/> </td>
+	    	<td align="center"><s:property value="demand[sectionId]-studentCapacity"/> </td>
+	    	<td align="center"><s:property value="(100*(demand[sectionId]-studentCapacity))/studentCapacity"/> </td>
 	  </tr>
 </s:iterator>
 </table>

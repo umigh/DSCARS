@@ -109,6 +109,7 @@ public class InstructorDao extends HibernateUtil {
 		return instructor;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Instructor> listTAs() {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();

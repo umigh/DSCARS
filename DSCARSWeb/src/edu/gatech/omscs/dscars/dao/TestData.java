@@ -2,9 +2,11 @@ package edu.gatech.omscs.dscars.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -45,6 +47,13 @@ public class TestData {
 		//testEligigbleCourse();
 		//addCoreEngineSetting();
 		loadTestData();
+		testDemand();
+	}
+	
+	public static void testDemand() {
+		PchDAO dao=new PchDAO();
+		Map<Integer,Integer> demand=dao.getDemand();
+		System.out.println(demand);
 	}
 	
 	public static void testEligigbleCourse() {
@@ -184,11 +193,11 @@ public class TestData {
 		//Semester sem=new Semester(semesterid);
 		PreferredCourseHistory pch=null;
 		int sectionIndex=0;		
-		for(int i=0;i<350;i++) {
+		for(int i=0;i<20;i++) {
 			int id=903000100+i;
 			Contact contact=new Contact(id,"Student", ""+i,"student"+i+"@gatech.edu");
 			cdao.add(contact);
-			s=new Student(id,2);
+			s=new Student(id,2,randInt(1,5));
 			sdao.add(s);
 			user=new User(id, "student"+i, "Student", "dscars");
 			udao.add(user);

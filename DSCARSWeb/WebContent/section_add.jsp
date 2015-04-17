@@ -64,9 +64,10 @@
                         listValue="contact.lastName"
                         name="instructorId"
                         headerValue="Select Professor" />
+                    <DIV>
                     <table>
                         <tr>
-                            <td>
+                            <td>TA Assignment:&nbsp</td><td>
                                 <s:select 
                                 	label="Full TA List"
                                     class="fullTaList"
@@ -77,7 +78,7 @@
                                     mutliple="true"
                                     size="5"
                                     emptyOption="false"
-                                    headerKey="-1"/>
+                                    headerKey="-1" theme="simple"/>
                             </td>
                             <td>
                                 <table>
@@ -103,11 +104,11 @@
                                     mutliple="true"
                                     size="5"
                                     headerKey="-1"
-                                    />
+                                    theme="simple"/>
                             </td>
                         </tr>
                     </table>
-                
+                	</DIV>
                 <br/>
                 <div style="margin-top: 10px; padding: 0 .9em;"  align="center">
                     <button type="submit" value="SaveSection" id="buttonName" name="buttonName" class="SavePch">Add Section</button>

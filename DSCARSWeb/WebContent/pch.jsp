@@ -1,4 +1,5 @@
 <!doctype html>
+<%@page import="java.util.Map"%>
 <%@page import="edu.gatech.omscs.dscars.model.Student"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
@@ -92,7 +93,10 @@
 <br/>
 <table>     
      <tr>
-     <td>Number Of Courses</td>
+     <td>Number Of Courses Completed</td>
+     		<td><input type="number" min="1" max="2" step="1" name="pch.student.numCoursesCompleted"  id="pch.numCoursesDesired"   value='<s:property value="pch.student.numCoursesCompleted"/>' disabled="disabled"/ width="2" maxlength="2"></td>                        
+     </td>
+     <td>Number Of Courses Desired</td>
             <td>
             <input type="number" name="pch.numCoursesDesired"  id="pch.numCoursesDesired"  min="1" max="2" step="1" value='<s:property value="pch.numCoursesDesired"/>'/>
      </td>
@@ -122,8 +126,8 @@
 <th >Course</th>
 <th >Program</th>
 <th >Instructor</th>
-<th >Capacity</th>
-<th >Max TAs</th>
+<th >Max Class Size</th>
+<th> Recommended Class Size</th>
 <th >Demand</th>
 <th >Recommended</th>
 <th >Date</th>
@@ -134,10 +138,10 @@
   		<td hidden="true"><s:property value="pchSubId"/> </td>
   		<td><s:property value="section.course.courseId+' '+section.course.courseName"/> </td>
     	<td><s:property value="section.program.programName"/> </td>
-    	<td><s:property value="section.instructor.name"/> </td>
-    	<td><s:property value="section.studentCapacity"/> </td>
-    	<td><s:property value="section.taCapacity"/> </td>
-    	<td><s:property value="section.courseDemand"/> </td>
+    	<td><s:property value="section.instructor.contact.firstName+' '+section.instructor.contact.lastName"/> </td>
+    	<td align="center"><s:property value="section.maxClassSize"/> </td>
+    	<td align="center"><s:property value="section.generatedClassSize"/> </td>
+    	<td align="center"><s:property value="%{demand[section.sectionId]}" /></td>
     	<td align="center" >
     	<s:if test="%{recommendedDate!=null}">
     	<input type="checkbox" name="recommended" value="true" disabled="disabled" checked="checked" >

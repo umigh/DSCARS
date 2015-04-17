@@ -86,13 +86,14 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 <table id="studentPchTable">
 <tr class="ui-widget-header ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 <th>Student</th>
-<th width="5%">Desired num of courses</th>
+<th width="5%">Completed courses</th>
+<th width="5%">Desired courses</th>
 <th >Course</th>
 <th >Program</th>
-<th >Priority</th>
 <th >Instructor</th>
-<th >Capacity</th>
-<th >Max TAs</th>
+<th >Priority</th>
+<th >Max Class Size</th>
+<th width="10%"> Recommended Class Size</th>
 <th >Demand</th>
 <th >Recommended</th>
 <th >Date</th>
@@ -103,14 +104,15 @@ Search: <input type="text" id="search" name="search" class="ui-widget-content ui
 	<s:iterator value="pchSubs" status="pchSub">
 	  <tr class="ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 	  		<td><s:property value="student.contact.firstName+' '+student.contact.lastName"/> </td>
+	  		<td align="center"><s:property value="student.numCoursesCompleted"/> </td>
 	  		<td align="center"><s:property value="numCoursesDesired"/> </td>
 	  		<td><s:property value="section.course.courseId+' '+section.course.courseName"/> </td>
-	  		<td><s:property value="section.program.programName"/> </td>
+	    	<td><s:property value="section.program.programName"/> </td>
+	    	<td><s:property value="section.instructor.contact.firstName+' '+section.instructor.contact.lastName"/> </td>
 	    	<td align="center"><s:property value="priority"/> </td>
-	    	<td><s:property value="section.instructor.name"/> </td>
-	    	<td><s:property value="section.studentCapacity"/> </td>
-	    	<td><s:property value="section.taCapacity"/> </td>
-	    	<td><s:property value="section.courseDemand"/> </td>
+	    	<td align="center"><s:property value="section.maxClassSize"/> </td>
+	    	<td align="center"><s:property value="section.generatedClassSize"/> </td>
+	    	<td align="center"><s:property value="%{demand[section.sectionId]}"/> </td>
 	    	<td align="center" >
 	    	<s:if test="%{recommendedDate!=null}">
 	    	<input type="checkbox" name="recommended" value="true" disabled="disabled" checked="checked" >

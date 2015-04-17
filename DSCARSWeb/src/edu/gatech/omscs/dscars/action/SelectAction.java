@@ -2,10 +2,12 @@ package edu.gatech.omscs.dscars.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import edu.gatech.omscs.dscars.dao.CourseDAO;
+import edu.gatech.omscs.dscars.dao.PchDAO;
 import edu.gatech.omscs.dscars.dao.ProgramDAO;
 import edu.gatech.omscs.dscars.dao.SectionDAO;
 import edu.gatech.omscs.dscars.dao.SemesterDAO;
@@ -20,6 +22,7 @@ public class SelectAction extends ActionSupport {
 	String buttonName;
 	Integer programId;
 	Integer semesterId;
+	Map<Integer,Integer> demand;
 	
 	List<Course> courses;
 	List<Program> programs;
@@ -34,7 +37,7 @@ public class SelectAction extends ActionSupport {
 		ProgramDAO pDao=new ProgramDAO();
 		programs=pDao.getPrograms();
 		SemesterDAO sDao=new SemesterDAO();
-		semesters=sDao.getSemesters();
+		semesters=sDao.getSemesters();		
 	}
 	
 	protected void setCourseList() {
@@ -44,9 +47,13 @@ public class SelectAction extends ActionSupport {
 	
 	protected void setSectionList() {
 		SectionDAO secDao=new SectionDAO();
-		if(semesterId!=null)
+		if(semesterId!=null) {
 			//sections=secDao.getSectionsOffered(semesterId, programId);
 			sections=secDao.getSectionsOffered(semesterId);
+			PchDAO pchdao=new PchDAO();
+			demand=pchdao.getDemand();
+		}
+		
 	}
 	
 	public SelectAction() {
@@ -110,5 +117,13 @@ public class SelectAction extends ActionSupport {
 
 	public void setSections(List<Section> sections) {
 		this.sections = sections;
+	}
+
+	public Map<Integer, Integer> getDemand() {
+		return demand;
+	}
+
+	public void setDemand(Map<Integer, Integer> demand) {
+		this.demand = demand;
 	}
 }

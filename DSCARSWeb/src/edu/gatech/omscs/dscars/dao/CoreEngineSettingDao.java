@@ -10,7 +10,6 @@ import org.hibernate.classic.Session;
 
 import edu.gatech.omscs.dscars.exception.SettingLockedException;
 import edu.gatech.omscs.dscars.model.CoreEngineSetting;
-import edu.gatech.omscs.dscars.model.Semester;
 import edu.gatech.omscs.dscars.util.HibernateUtil;
 
 public class CoreEngineSettingDao extends HibernateUtil {
