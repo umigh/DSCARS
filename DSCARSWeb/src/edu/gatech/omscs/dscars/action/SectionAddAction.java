@@ -200,10 +200,11 @@ public class SectionAddAction extends SelectAction {
 				isValid = false;
 				addActionError("You must select a semester.");
 			}
+			/*
 			else if (this.getTaInsertList().size() < 1) {
 				isValid = false;
 				addActionError("You must select at least one TA.");
-			}
+			}*/
 			else if (!"".equals(this.maxClassSize))
 			{
 				try {
