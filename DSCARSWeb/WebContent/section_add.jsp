@@ -14,10 +14,10 @@
                $(origin).find(':selected').appendTo(dest);
             }             
             $('#add').on('click', function () {
-               moveItems('#fullTaList', '#taInsertList');
+               moveItems('#fullTaList', '#sectionTaList');
             });             
             $('#remove').on('click', function () {
-               moveItems('#taInsertList','#fullTaList');
+               moveItems('#sectionTaList','#fullTaList');
             });
             });
         </script>		
@@ -34,7 +34,6 @@
 		 </s:if>
         
             <s:form action="sectionAdd" method="post">
-                
                     <s:select property="programId" 
                         label="Select Prorgam"
                         list="programs"
@@ -78,7 +77,7 @@
                                 	label="Full TA List"
                                     class="fullTaList"
                                     id="fullTaList"
-                                    list="taList"
+                                    list="semesterTaList"
                                     listKey="instructorId"
                                     listValue="contact.lastName"
                                     mutliple="true"
@@ -95,7 +94,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                        	<button type="button" value="Remove" id="add">remove</button>
+                                        	<button type="button" value="Remove" id="remove">Remove</button>
                                         </td>                                        
                                     </tr>
                                 </table>
@@ -103,10 +102,11 @@
                             <td>
                                 <s:select 
                                 	label="Section TA List"
-                                    class="taInsertList"
-                                    id="taInsertList"
-                                    name="taInsertList"
-                                    list="{}"
+                                    class="sectionTaList"
+                                    id="sectionTaList"
+                                    list="sectionTaList"
+                                    listKey="instructor.instructorId"
+                                    listValue="instructor.contact.lastName"
                                     mutliple="true"
                                     size="5"
                                     headerKey="-1"
@@ -116,7 +116,13 @@
                     </table>
                     <br/>
                     <div style="margin-top: 10px; padding: 0 .9em;"  align="center">
-                    	<button type="submit" value="SaveSection" id="buttonName" name="buttonName" class="SavePch">Add Section</button>
+                    	 <s:if test="%{buttonName=='edit'}">
+						    	<button type="submit" value="SaveSection" id="buttonName" name="buttonName" class="SavePch">Edit Section</button>
+						 </s:if>    
+						 <s:if test="%{buttonName=='add'}">
+						    	<button type="submit" value="SaveSection" id="buttonName" name="buttonName" class="SavePch">Add Section</button>
+						 </s:if>
+                    	
                     	<input type="button" class="button" onclick="javascript:history.go(-1)" value="Go back" />
                 	</div>
                 	<br/>

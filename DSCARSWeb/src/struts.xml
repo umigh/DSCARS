@@ -29,7 +29,8 @@
 			<result name="success">section_add.jsp</result>
 			<result name="sectionAdmin" type="chain">
         		<param name="actionName">sectionAdmin</param>
-        		<param name="semesterId">${semesterId}</param>        		
+        		<param name="semesterId">${semesterId}</param>
+        		<param name="sectionId">${sectionId}</param>       		
             </result>
 		</action>
 		
