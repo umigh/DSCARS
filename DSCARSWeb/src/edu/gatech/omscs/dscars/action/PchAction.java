@@ -63,7 +63,7 @@ public class PchAction extends SelectAction  {
 	}
 
 	private void filterSections(User user, PchDAO dao) {
-		setSectionList();
+		setSectionList(user.getRole().equals("Admin"));
 		eligibleCourseList=dao.getEligibleCourses(user.getUserId());
 		for(int i=0;i<sections.size();i++) {
 			if(!eligibleCourseList.contains(((Section) sections.get(i)).getCourse().getCourseId())) {
