@@ -40,7 +40,7 @@
 <body>     
 <ul class="ui-widget-header  ui-corner-all" style="margin-bottom: 10px; padding: 0 .9em;" >
   <li><a id="sectionAdmin" href="sectionAdmin" class="menuItem"><font size="2">Course Management</font></a>&nbsp&nbsp</li>
-  <li><a id="studentAdmin" href="studentAdmin" class="menuItem"><font size="2">Student Assignment</font></a>&nbsp&nbsp</li>
+  <li><a id="studentAdmin" href="studentAdmin" class="menuItem"><font size="2">Student Recommendation</font></a>&nbsp&nbsp</li>
   <li><a href="logoff"><font size="2">Logoff</font></a>&nbsp&nbsp</li>
 </ul>
 </body>

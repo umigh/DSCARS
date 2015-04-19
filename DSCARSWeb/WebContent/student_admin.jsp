@@ -55,7 +55,7 @@
 <%@include file="admin_menu.jsp" %>
 <div class="ui-widget" >
 <div class="ui-widget-content ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
-<h2>Student Recommendations.</h2>	
+<h2>Student Recommendation.</h2>	
 <s:form action="studentAdmin" method="post">
 <input type="hidden"  id="pchSubIds" name="pchSubIds" />
 <table id="selectTable">

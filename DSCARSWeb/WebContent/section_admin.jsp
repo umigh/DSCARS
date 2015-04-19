@@ -58,7 +58,7 @@
 <%@include file="admin_menu.jsp" %>
 <div class="ui-widget" >
 <div class="ui-widget-content ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
-<h2>Course Summary</h2>	
+<h2>Course Management</h2>	
 <s:form action="sectionAdmin" method="post">
 <input type="hidden"  id="pchSubIds" name="pchSubIds" />
 <table id="selectTable">
