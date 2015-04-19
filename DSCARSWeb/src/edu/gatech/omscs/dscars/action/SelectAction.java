@@ -45,11 +45,16 @@ public class SelectAction extends ActionSupport {
 		courses=cDao.getCourses();
 	}
 	
-	protected void setSectionList() {
+	protected void setSectionList(boolean admin) {
 		SectionDAO secDao=new SectionDAO();
 		if(semesterId!=null) {
 			//sections=secDao.getSectionsOffered(semesterId, programId);
-			sections=secDao.getSectionsOffered(semesterId);
+			if(admin) {
+				sections=secDao.getSections(semesterId);
+			}
+			else {
+				sections=secDao.getSectionsOffered(semesterId);
+			}			
 			PchDAO pchdao=new PchDAO();
 			demand=pchdao.getDemand();
 		}
