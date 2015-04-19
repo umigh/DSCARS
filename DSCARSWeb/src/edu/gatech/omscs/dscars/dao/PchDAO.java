@@ -84,7 +84,7 @@ public class PchDAO {
 			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			Connection con=session.connection();
-			PreparedStatement st=con.prepareStatement("select courseId from SectionAvailableToStudent where studentId=?");
+			PreparedStatement st=con.prepareStatement("select distinct courseId from SectionAvailableToStudent where studentId=?");
 			st.setInt(1, studentId);
 			ResultSet rs=st.executeQuery();
 			

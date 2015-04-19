@@ -112,4 +112,22 @@ public class SectionDAO {
 		session.getTransaction().commit();
 		return sections;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Section> getSections(int semesterId) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<Section> sections = null;
+		try {			
+			Query query = session.createQuery("from Section where semester.semesterId = :semesterId");
+			query.setInteger("semesterId", semesterId);
+			sections = (List<Section>) query.list();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return sections;
+	}
 }
