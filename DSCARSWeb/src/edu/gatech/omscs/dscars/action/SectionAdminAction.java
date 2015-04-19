@@ -33,7 +33,7 @@ public class SectionAdminAction extends SelectAction  {
 			runRecommendation(user);
 	    }
 		if(semesterId!=null)
-				setSectionList();
+				setSectionList(user.getRole().equals("Admin"));
 		setLists();
 	    return SUCCESS;
 	}
