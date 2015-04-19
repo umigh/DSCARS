@@ -35,7 +35,7 @@ public class StudentAdminAction extends SelectAction {
 		if(semesterId!=null) {
 			PchDAO dao=new PchDAO();
 			pchList=dao.getStudentPch(semesterId);
-			setSectionList();
+			setSectionList(user.getRole().equals("Admin"));
 		}
 	    return SUCCESS;
 	}
