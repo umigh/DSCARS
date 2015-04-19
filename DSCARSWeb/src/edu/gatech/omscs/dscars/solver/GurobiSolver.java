@@ -58,8 +58,8 @@ public void solve(CoreEngine coreEngine){
 			  this.CreateConstraint_MinimizeClassSize();	
 	    	  this.CreateConstraint_IsCourseOffered();	   
 	    	  //this.CreateConstraint_PreferredCoursePriority();
-			  //this.CreateConstraint_StudentSeniority();  	
-			  this.CreateConstraint_Priority();  
+			   this.CreateConstraint_Priority();  
+			   //this.CreateConstraint_StudentSeniority();  					 
 			  //this.CreateConstraint_Seniority();   
 	    	 
 			  model.optimize();			  
@@ -577,13 +577,18 @@ public void solve(CoreEngine coreEngine){
 										{
 											ConstraintName.add("c6" + "_" + i1 + "_" +  i2 + "_" +  j);
 											
-											expr = new GRBLinExpr();	
+											GRBLinExpr expr1 = new GRBLinExpr();	
 											 
-											expr.addTerm(1.0, schedule[i1][j]);	
+											expr1.addTerm(thisSeniority, schedule[i1][j]);	
 											Constraint += "S" + i1 + j;
 											
-											model.addConstr(expr, GRB.GREATER_EQUAL, schedule[i2][j],  "c5" + "_" + i + "_" +  j1 + "_" +  j2);	
-											Constraint += " >= " + "S" + i2 + j;	
+											GRBLinExpr expr2 = new GRBLinExpr();	
+											 
+											expr2.addTerm(thisSeniority, schedule[i2][j]);	
+											Constraint += " >= S" + i2 + j;
+											
+											model.addConstr(expr1, GRB.GREATER_EQUAL, expr2,  "c6" + "_" + i1 + "_" +  j2 + "_" +  j);	
+											//Constraint += " >= " + "S" + i2 + j;	
 											Constraint = "c6" + "_" + i1 + "_" +  i2 + "_" +  j + " -> " + Constraint;
 											
 											System.out.println(Constraint);
@@ -605,6 +610,7 @@ public void solve(CoreEngine coreEngine){
 		    }							
 	}
 	
+	
 	public void CreateConstraint_Priority()
 	{
 		try
@@ -616,6 +622,7 @@ public void solve(CoreEngine coreEngine){
 		      for (PreferredCourseHistory student : coreEngine.studentList)
 			  {	    	  	
 		    	  studentid = student.getStudent().getStudentId();
+		    	  int seniority = student.getStudent().getNumCoursesCompleted() + 1;
 		    	  Set<PchSub> set = student.getPchSubs();
 				  Iterator<PchSub> iter = set.iterator();
 				  while(iter.hasNext()) 
@@ -627,8 +634,9 @@ public void solve(CoreEngine coreEngine){
 					
 					i = studentHashMap.get(studentid);
 					j = sectionHashMap.get(preferredsectionid);
-					expr.addTerm(happiness, schedule[i][j]);	
-					Constraint += " + " + Integer.toString(happiness) + "S" + i + j;		
+					
+					expr.addTerm(happiness * seniority, schedule[i][j]);	
+					Constraint += " + " + Integer.toString(happiness * seniority) + "S" + i + j;		
 				  }										  
 			  }
 		      model.addConstr(expr, GRB.EQUAL, x,  "c5" + "_" + i );
