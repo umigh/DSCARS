@@ -34,8 +34,8 @@
 	<div class="ui-widget-content ui-corner-all" style="margin-top: 10px; padding: 0 .9em;">
 	<br/>
 	<s:form action="login" method="post">
-	<s:textfield name="userName" label="Username" value="umashankar3"/>
-	<s:password name="password" label="Password" value="dscars"/>
+	<s:textfield name="userName" label="Username" />
+	<s:password name="password" label="Password" />
 	
 	<s:submit value="Login" align="center"/>
 	</s:form>
