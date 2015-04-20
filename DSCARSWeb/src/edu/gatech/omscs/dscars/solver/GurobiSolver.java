@@ -45,8 +45,7 @@ public void solve(CoreEngine coreEngine){
 		try{			
 			  this.Intialize(coreEngine);  
 		      this.SetVariables();		      
-		      this.SetObjectiveVariables_StudentHappiness();;
-		     
+		      this.SetObjectiveVariables_StudentHappiness();
 		      model.update(); 	
 	
 		      this.SetObjective_StudentHappiness();
@@ -57,18 +56,16 @@ public void solve(CoreEngine coreEngine){
 			  this.CreateConstraint_MaxClassSize();
 			  this.CreateConstraint_MinimizeClassSize();	
 	    	  this.CreateConstraint_IsCourseOffered();	   
-	    	  //this.CreateConstraint_PreferredCoursePriority();
-			   this.CreateConstraint_Priority();  
-			   //this.CreateConstraint_StudentSeniority();  					 
-			  //this.CreateConstraint_Seniority();   
+	    	  this.CreateConstraint_PrioritySeniority();   //Student Happiness
+			   
 	    	 
 			  model.optimize();			  
 			  		
 			  this.updateSchedule();		     
 		      this.updateClassSize();
 		      
-		      //updateSchedule();		     
-		      //updateClassSize();
+		      this.PrintClassSize();
+		      this.PrintSchedule();
 		      	     
 		      model.dispose();
 		      env.dispose();
@@ -100,14 +97,14 @@ public void solve(CoreEngine coreEngine){
   	  {
   		  j++;
   		  sectionid = section.getSectionId();
-	    	  sectionHashMap.put(sectionid, j);	    		  		
+	      sectionHashMap.put(sectionid, j);	    		  		
   	  }
   	  
-  	  int priority, happiness; happiness = 10;
-  	  for ( priority = 1; priority <= 10; priority++ )
+  	  int priority, happiness; happiness = 5;
+  	  for ( priority = 1; priority <= 5; priority++ )
   	  {  		  
   		  priorityHashMap.put(priority, happiness);
-  		happiness--;  		  
+  		  happiness--;  		  
   	  }
 	       
   	  num_of_Students = studentHashMap.size();
@@ -160,15 +157,14 @@ public void solve(CoreEngine coreEngine){
 		                         e.getMessage());
 		  }
 	}
-	
+		
 	public void SetObjectiveVariables_StudentHappiness()
 	{
 		try{
 			 Objective = "Maximize ";
 			 // Add X as Integer variable for class capacity. Can range from 0 to total number of student in the program.
-		      x = model.addVar(0.0, 1000.0, 1.0, GRB.INTEGER, "x");
-		      z = model.addVar(0.0, 1000.0, 1.0, GRB.INTEGER, "z");
-		      Objective = "x & z";
+		      x = model.addVar(0.0, this.num_of_Students * this.num_of_courses * 1000000000, 1.0, GRB.INTEGER, "x");
+		      Objective = "x";
 	    	  System.out.println(Objective);
 		}
     	catch (GRBException e) {
@@ -180,11 +176,10 @@ public void solve(CoreEngine coreEngine){
 	public void SetObjective_StudentHappiness()
 	{
 		try{
-			// Set objective: minimize class capacity variable	
+			// Set objective: MAXIMIZE StudentHappiness
 		      GRBLinExpr obj = new GRBLinExpr();
 		      	      
 		      obj.addTerm(1.0, x);
-		      obj.addTerm(1.0, z);
 	    	  model.setObjective(obj, GRB.MAXIMIZE);	
 	    	 
 		}
@@ -226,7 +221,7 @@ public void solve(CoreEngine coreEngine){
 				  }	
 					
 				  model.addConstr(expr, GRB.LESS_EQUAL, student.getNumCoursesDesired(),  "c1" + "_" + i );
-				  Constraint += " = " + student.getNumCoursesDesired();
+				  Constraint += " <= " + student.getNumCoursesDesired();
 				  Constraint = "c1" + "_" + i + " -> " + Constraint;
 			  }
 		      System.out.println(Constraint);
@@ -378,240 +373,9 @@ public void solve(CoreEngine coreEngine){
 	                         e.getMessage());
 	  }
 	}
-	
-	public void CreateConstraint_PreferredCoursePriority()
-	{
-		try{
-			/*constraint group 5 -Priority
-			  S_i_j_p - i - students, j- preferred courses, p - priority
-			  constraint 1: S_1_13_1 >= S_1_4_2 
-			  constraint 2: S_1_4_2 >= S_1_3_3
-			  constraint 3: S_1_13_1 >= S_1_3_3
-	    	  */
-	    	  
-	    	  Constraint = "Constraint 5: Priority of preferred courses";
-	    	  List<String> ConstraintName = new ArrayList<String>();
-	    	
-			  for (PreferredCourseHistory student : coreEngine.studentList)
-			  {
-				    studentid = student.getStudent().getStudentId();
-				    System.out.println(Constraint);
-			    	Constraint = "";
-			    	  
-				    Set<PchSub> set = student.getPchSubs();
-					Iterator<PchSub> iter1 = set.iterator();
-					while(iter1.hasNext()) 
-					{
-						PchSub thisstudentPreference = iter1.next();
-						int thispreferredsectionid = thisstudentPreference.getSection().getSectionId();
-						int thispriority = thisstudentPreference.getPriority();
-						
-						Iterator<PchSub> iter2 = set.iterator();
-						while(iter2.hasNext()) 
-						{
-							PchSub eachstudentPreference = iter2.next();
-							int eachpreferredsectionid = eachstudentPreference.getSection().getSectionId();
-							int eachpriority = eachstudentPreference.getPriority();
-							
-							if (thispreferredsectionid != eachpreferredsectionid)
-							{
-								
-								int j, k;
-								i = studentHashMap.get(studentid);
-								if (thispriority > eachpriority)
-								{
-									j = sectionHashMap.get(thispreferredsectionid);
-									k = sectionHashMap.get(eachpreferredsectionid);
-									
-								}
-								else
-								{
-									j = sectionHashMap.get(eachpreferredsectionid);
-									k = sectionHashMap.get(thispreferredsectionid);	
-								}
-								
-								if (!ConstraintName.contains("c5" + "_" + i + "_" +  j + "_" +  k))
-								{
-									ConstraintName.add("c5" + "_" + i + "_" +  j + "_" +  k);
-									GRBLinExpr expr1 = new GRBLinExpr();
-									
-									expr1.addTerm(1.0, schedule[i][j]);	
-									Constraint += "S" + i + j;
-									
-									GRBLinExpr expr2 = new GRBLinExpr();
-									expr2.addTerm(1.0, schedule[i][k]);	
-									Constraint += "<= Y" + i + k;
-									
-									model.addConstr(expr1, GRB.LESS_EQUAL, expr2 ,  "c5" + "_" + i + "_" +  j + "_" +  k);	
-									//Constraint += " >= 0 ";	
-									
-									/*model.addConstr(expr, GRB.GREATER_EQUAL, schedule[i][k],  "c5" + "_" + i + "_" +  j + "_" +  k);	
-									Constraint += " >= " + "S" + i + k;	
-									*/Constraint = "c5" + "_" + i + "_" +  j + "_" +  k + " -> " + Constraint;
-									
-									System.out.println(Constraint);
-							    	Constraint = "";					
-								}
-											
-							}		
-						}
-											
-					}		
-			  }
-			  System.out.println(Constraint);
-	    	  Constraint = "";
-		}
-    	catch (GRBException e) {
-	      System.out.println("Error code: " + e.getErrorCode() + ". " +
-	                         e.getMessage());
-	  }
-	}
-	
-	private void CreateConstraint_Seniority() {
-		try
-		{
-			/*constraint group 6 -Seniority
-			  
-	    	  */
-	    	  
-	    	  Constraint = "Constraint 6: Seniority";
-	    	  
-	    	  System.out.println(Constraint);
-		      Constraint = "";
-		      expr = new GRBLinExpr();	
-	    	  
-			  for (PreferredCourseHistory Student : coreEngine.studentList)
-			  {
-				    this.studentid = Student.getStudent().getStudentId();
-				    int Seniority = Student.getStudent().getNumCoursesCompleted();
-				    			    	  
-				    Set<PchSub> set = Student.getPchSubs();
-					Iterator<PchSub> iter = set.iterator();
-					while(iter.hasNext()) 
-					{
-						PchSub studentPreference = iter.next();
-						this.preferredsectionid = studentPreference.getSection().getSectionId();
-						
-						i = studentHashMap.get(studentid);
-						j = sectionHashMap.get(preferredsectionid);
-						
-						expr.addTerm(Seniority, schedule[i][j]);	
-						Constraint += " + " + Integer.toString(Seniority) + "S" + i + j;
-					}
-					
-		       }
-			   model.addConstr(expr, GRB.EQUAL, schedule[i][j],  "c6" + "_" + i + "_" +  j);	
-			   Constraint += " = " + "Z";	
-			   Constraint = "c6" + "_" + i + "_" +  j + " -> " + Constraint;
-				
-			   System.out.println(Constraint);
-		       Constraint = "";	
-			}
-	    	catch (GRBException e) 
-		    {
-		      System.out.println("Error code: " + e.getErrorCode() + ". " +
-		                         e.getMessage());
-		    }							
-	}
-	
-	public void CreateConstraint_StudentSeniority()
-	{
-		try
-		{
-			/*constraint group 6 -Student Seniority
-			  S_i_j_p - i - students, j- preferred courses, s - Seniority
-			  constraint 1: S_1_1_3 >= S_2_1_2 
-			  constraint 2: S_2_1_2 >= S_4_1_0
-			  constraint 3: S_5_13_6 >=  1_13_3
-	    	  */
-	    	  
-	    	  Constraint = "Constraint 6: Student Seniority";
-	    	  List<String> ConstraintName = new ArrayList<String>();
-	    	
-			  for (PreferredCourseHistory thisStudent : coreEngine.studentList)
-			  {
-				    int thisStudentid = thisStudent.getStudent().getStudentId();
-				    int thisSeniority = thisStudent.getStudent().getNumCoursesCompleted();
-				    System.out.println(Constraint);
-			    	Constraint = "";
-			    	  
-				    Set<PchSub> thisSet = thisStudent.getPchSubs();
-					Iterator<PchSub> thisIter = thisSet.iterator();
-					while(thisIter.hasNext()) 
-					{
-						PchSub thisStudentPreference = thisIter.next();
-						int thisPreferredSectionid = thisStudentPreference.getSection().getSectionId();
-						
-						for (PreferredCourseHistory eachStudent : coreEngine.studentList)
-						{
-							int eachStudentid = eachStudent.getStudent().getStudentId();
-						    int eachSeniority = eachStudent.getStudent().getNumCoursesCompleted();
-							if (thisStudentid != eachStudentid)
-							{							    
-							    System.out.println(Constraint);
-						    	Constraint = "";
-						    	  
-							    Set<PchSub> eachSet = eachStudent.getPchSubs();
-								Iterator<PchSub> eachIter = eachSet.iterator();
-								while(eachIter.hasNext()) 
-								{
-									PchSub eachStudentPreference = eachIter.next();
-									int eachPreferredSectionid = eachStudentPreference.getSection().getSectionId();
-									
-									if (thisPreferredSectionid == eachPreferredSectionid)
-									{
-										j = sectionHashMap.get(thisPreferredSectionid);
-										if (thisSeniority > eachSeniority)
-										{
-											i1 = studentHashMap.get(thisStudentid);
-											i2 = studentHashMap.get(eachStudentid);
-											
-										}
-										else
-										{
-											i1 = studentHashMap.get(eachStudentid);
-											i2 = studentHashMap.get(thisStudentid);											
-										}
-										
-										if (!ConstraintName.contains("c6" + "_" + i1 + "_" +  i2 + "_" +  j))
-										{
-											ConstraintName.add("c6" + "_" + i1 + "_" +  i2 + "_" +  j);
-											
-											GRBLinExpr expr1 = new GRBLinExpr();	
-											 
-											expr1.addTerm(thisSeniority, schedule[i1][j]);	
-											Constraint += "S" + i1 + j;
-											
-											GRBLinExpr expr2 = new GRBLinExpr();	
-											 
-											expr2.addTerm(thisSeniority, schedule[i2][j]);	
-											Constraint += " >= S" + i2 + j;
-											
-											model.addConstr(expr1, GRB.GREATER_EQUAL, expr2,  "c6" + "_" + i1 + "_" +  j2 + "_" +  j);	
-											//Constraint += " >= " + "S" + i2 + j;	
-											Constraint = "c6" + "_" + i1 + "_" +  i2 + "_" +  j + " -> " + Constraint;
-											
-											System.out.println(Constraint);
-									    	Constraint = "";					
-										}
-								     }
-								 }
-							}
-						 }
-					  }
-			       }
-				   System.out.println(Constraint);
-			       Constraint = "";
-			}
-	    	catch (GRBException e) 
-		    {
-		      System.out.println("Error code: " + e.getErrorCode() + ". " +
-		                         e.getMessage());
-		    }							
-	}
-	
-	
-	public void CreateConstraint_Priority()
+		
+		
+	public void CreateConstraint_PrioritySeniority()
 	{
 		try
 		{
@@ -688,9 +452,9 @@ public void solve(CoreEngine coreEngine){
 		      System.out.println(x.get(GRB.StringAttr.VarName)
                       + " " +x.get(GRB.DoubleAttr.X));		
 		      
-		      System.out.println("Seniority: ");
+		      /*System.out.println("Seniority: ");
 		      System.out.println(z.get(GRB.StringAttr.VarName)
-                      + " " +z.get(GRB.DoubleAttr.X));		
+                      + " " +z.get(GRB.DoubleAttr.X));	*/	
    	
 		      System.out.println("Obj: " + model.get(GRB.DoubleAttr.ObjVal));
 		}
