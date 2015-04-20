@@ -30,7 +30,7 @@ public class SectionAdminAction extends SelectAction  {
 	         addActionMessage("The course "+section.getCourse().getCourseId()+" "+section.getCourse().getCourseName()+"has been deleted sucessfully!");
 	    }
 		else if ("RunRecommendation".equals(buttonName)) {
-			runRecommendation(user);
+			return  "recommendation";
 	    }
 		if(semesterId!=null)
 				setSectionList(user.getRole().equals("Admin"));
@@ -38,23 +38,6 @@ public class SectionAdminAction extends SelectAction  {
 	    return SUCCESS;
 	}
 	
-	private void runRecommendation(User user) {
-		CoreEngineSetting setting=new CoreEngineSetting(user.getUserId(), 200, 200, semesterId);
-		CoreEngineSettingDao coedao=new CoreEngineSettingDao();
-		
-		try {
-			setting=coedao.addOrUpdate(setting);
-			CoreEngine engine=new CoreEngine(setting);
-			engine.solve();
-			//addActionMessage("A core engine job is schedule to run recommendations. Please check results in a minute.");
-			addActionMessage("Core engine has been run successfully and recommendations are shown below.");
-		} catch (SettingLockedException e) {
-			System.out.println(e);
-			addActionError("A scheduled core engine job is already running recommendations. Please check results in a minute.");
-		}
-	}
-
-
 	public int getSectionId() {
 		return sectionId;
 	}

@@ -38,6 +38,16 @@ public class SectionTADAO {
 		return sectionTA;
 	}
 	
+	public void delete(Integer sectionId, Integer instructorId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("delete SectionTA where section.sectionId=:sectionId and instructor.instructorId=:instructorId");
+		query.setParameter("sectionId", sectionId);
+		query.setParameter("instructorId", instructorId);
+		query.executeUpdate();
+		session.getTransaction().commit();
+	}
+	
 	/**
 	 * Only used by solver to update recommendations.
 	 * @param sectionId

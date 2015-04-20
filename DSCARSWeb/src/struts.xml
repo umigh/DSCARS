@@ -32,6 +32,7 @@
         		<param name="semesterId">${semesterId}</param>
         		<param name="sectionId">${sectionId}</param>       		
             </result>
+            <result name="input">section_add.jsp</result>
 		</action>
 		
 	   	<action name="studentAdmin" class="edu.gatech.omscs.dscars.action.StudentAdminAction"  method="execute">
@@ -46,6 +47,11 @@
         		<param name="actionName">sectionAdd</param>
         		<param name="semesterId">${semesterId}</param>
         		<param name="sectionId">${sectionId}</param>   
+        		<param name="buttonName">${buttonName}</param>
+            </result>
+            <result name="recommendation" type="chain">
+        		<param name="actionName">studentAdmin</param>
+        		<param name="semesterId">${semesterId}</param>   
         		<param name="buttonName">${buttonName}</param>
             </result>
 		</action>

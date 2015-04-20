@@ -30,23 +30,21 @@ import edu.gatech.omscs.dscars.model.User;
 public class TestData {
 	
 	public  static void main(String agrs[]) {
-		/*
-		prorgamData();
-		courseData();
-		semesterData();
-		userData();
-		sectionData();
-		sectionData1();
-		sectionData2();
-		sectionData3();
+		//prorgamData();
+		//courseData();
+		//semesterData();
+		//userData();
+		//sectionData();
+		//sectionData1();
+		//sectionData2();
+		//sectionData3();
 		setPchData();
-		addSectionTA();
-		addSectionStudent();
+		//addSectionTA();
+		//addSectionStudent();
 		
-		*/
 		//testEligigbleCourse();
 		//addCoreEngineSetting();
-		loadTestData();
+		//loadTestData();
 		testDemand();
 	}
 	
@@ -193,7 +191,7 @@ public class TestData {
 		//Semester sem=new Semester(semesterid);
 		PreferredCourseHistory pch=null;
 		int sectionIndex=0;		
-		for(int i=0;i<20;i++) {
+		for(int i=0;i<500;i++) {
 			int id=903000100+i;
 			Contact contact=new Contact(id,"Student", ""+i,"student"+i+"@gatech.edu");
 			cdao.add(contact);
@@ -206,7 +204,7 @@ public class TestData {
 			//PCH for semester1: 2015 Summer
 			pch=new PreferredCourseHistory();
 			pch.setDateCreated(new Date());
-			pch.setNumCoursesDesired(randInt(1,2));
+			pch.setNumCoursesDesired(randInt(2,2));
 			pch.setStudent(s);
 			pch.setSemester(new Semester(1));
 			pch.setDateCreated(new Date());
@@ -234,7 +232,10 @@ public class TestData {
 			pch.setPchSubs(pchset);
 			pchdao.add(pch);
 			
-			/*
+		}
+		/*
+		sectionIndex=0;		
+		for(int i=0;i<200;i++) {			
 			//PCH for semester1: 2015 Fall
 			pch=new PreferredCourseHistory();
 			pch.setDateCreated(new Date());
@@ -244,8 +245,8 @@ public class TestData {
 			pch.setDateCreated(new Date());
 
 			
-			pchset=new HashSet<PchSub>();
-			sectionIds=new ArrayList<Integer>();
+			Set<PchSub> pchset=new HashSet<PchSub>();
+			List<Integer> sectionIds=new ArrayList<Integer>();
 			for(int j=0;j<2;j++) {
 				PchSub sub=new PchSub(); 
 				int sectionId=randInt(1,4);
@@ -264,9 +265,9 @@ public class TestData {
 			}
 			
 			pch.setPchSubs(pchset);
-			pchdao.add(pch);
-			*/
+			pchdao.add(pch);			
 		}
+		*/
 	}
 	
 	public static int randInt(int min, int max) {

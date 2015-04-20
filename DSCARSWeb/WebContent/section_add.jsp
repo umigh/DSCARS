@@ -1,4 +1,6 @@
 <!doctype html>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Iterator"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html lang="en">
@@ -10,16 +12,24 @@
         <script src="external/jquery/jquery.js"></script>
         <script src="jquery-ui.js"></script>
         <script>
-            $(function () { function moveItems(origin, dest) {
-               $(origin).find(':selected').appendTo(dest);
-            }             
-            $('#add').on('click', function () {
-               moveItems('#fullTaList', '#sectionTaList');
-            });             
-            $('#remove').on('click', function () {
-               moveItems('#sectionTaList','#fullTaList');
-            });
-            });
+        $(document).ready(function() {
+        	var list = [];
+    		$('#addTA').click(function () {
+   				$('#selectedTA').val($('#fullTaList option:selected').val());
+         	  	$('#fullTaList option:selected').remove().appendTo('#selectedTas');
+         	  	$('#buttonName').val('addTA');
+    		});
+    		
+    		$('#removeTA').click(function () {
+        	  	$('#selectedTA').val($('#selectedTas option:selected').val());
+        	  	$('#selectedTas option:selected').remove().appendTo('#fullTaList');
+        	  	$('#buttonName').val('removeTA');
+    		});
+    		
+    		$('#save').click(function () {
+        	  	$('#buttonName').val('save');
+    		});
+        });
         </script>		
     </head>
     <body>
@@ -34,6 +44,12 @@
 		 </s:if>
         
             <s:form action="sectionAdd" method="post">
+            <s:hidden name="sectionId" id="sectionId" />
+            <s:hidden name="selectedTA" id="selectedTA" />
+            <s:hidden name="buttonName" id="buttonName" />
+            <input type="hidden"  id="selectedTAString" name="selectedTAString" />
+            <input type="hidden"  id="selectedTAs" name="selectedTAs" />
+            
                     <s:select property="programId" 
                         label="Select Prorgam"
                         list="programs"
@@ -62,7 +78,7 @@
                         headerKey="-1"
                         headerValue="Select Course"/>
                     <s:textfield name="maxClassSize" label="Capacity"/>
-                    <s:checkbox name="offered" fieldValue="true" label="Offered?" />
+                    <s:checkbox name="offered" label="Offered?" />
                     <s:select   label="Professor"
                         list="profList"
                         listKey="instructorId"
@@ -89,12 +105,12 @@
                                 <table>
                                     <tr>
                                         <td>
-                                        <button type="button" value="Add" id="add">Add</button>
+                                        <button type="submit" value="addTA" id="addTA" name="addTA" class="SavePch">Add</button>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                        	<button type="button" value="Remove" id="remove">Remove</button>
+                                        	<button type="submit" value="removeTA" id="removeTA" name="removeTA" class="SavePch">Remove</button>
                                         </td>                                        
                                     </tr>
                                 </table>
@@ -103,27 +119,27 @@
                                 <s:select 
                                 	label="Section TA List"
                                     class="sectionTaList"
-                                    id="sectionTaList"
+                                    id="selectedTas"
+                                    name="selectedTas"
                                     list="sectionTaList"
                                     listKey="instructor.instructorId"
                                     listValue="instructor.contact.lastName"
-                                    mutliple="true"
+                                    mutliple='true'
                                     size="5"
                                     headerKey="-1"
                                     theme="simple"/>
                             </td>
+                            <%
+                            	List list=(List) request.getAttribute("sectionTaList");
+                            System.out.println(list);
+                            
+                            %>
                         </tr>
                     </table>
                     <br/>
                     <div style="margin-top: 10px; padding: 0 .9em;"  align="center">
-                    	 <s:if test="%{buttonName=='edit'}">
-						    	<button type="submit" value="SaveSection" id="buttonName" name="buttonName" class="SavePch">Edit Section</button>
-						 </s:if>    
-						 <s:if test="%{buttonName=='add'}">
-						    	<button type="submit" value="SaveSection" id="buttonName" name="buttonName" class="SavePch">Add Section</button>
-						 </s:if>
-                    	
-                    	<input type="button" class="button" onclick="javascript:history.go(-1)" value="Go back" />
+						    <button type="submit" value="save" id="save" name="save" class="SavePch">Save</button>
+                    		<input type="button" class="button" onclick="javascript:history.go(-1)" value="Go back" />
                 	</div>
                 	<br/>
                 	</DIV>

@@ -77,6 +77,15 @@ public class PchDAO {
 		session.getTransaction().commit();
 	}
 	
+	public void deletePchSubBySectionId(Integer sectionId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("delete PchSub where section.sectionId=:sectionId");
+		query.setParameter("sectionId", sectionId);
+		query.executeUpdate();
+		session.getTransaction().commit();
+	}
+	
 	@SuppressWarnings({ "deprecation" })
 	public List<Integer> getEligibleCourses(int studentId) {	
 		List<Integer> list=new ArrayList<Integer>();
