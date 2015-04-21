@@ -18,12 +18,14 @@
    				$('#selectedTA').val($('#fullTaList option:selected').val());
          	  	$('#fullTaList option:selected').remove().appendTo('#selectedTas');
          	  	$('#buttonName').val('addTA');
+         	  	$('#save').attr('disabled',true);
     		});
     		
     		$('#removeTA').click(function () {
         	  	$('#selectedTA').val($('#selectedTas option:selected').val());
         	  	$('#selectedTas option:selected').remove().appendTo('#fullTaList');
         	  	$('#buttonName').val('removeTA');
+        	  	$('#save').attr('disabled',true);
     		});
     		
     		$('#save').click(function () {
