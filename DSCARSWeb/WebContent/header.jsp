@@ -15,7 +15,7 @@
 <table>
 <tr>
 <td width="60%"><h1>Georgia Institute of Technology</h1></td>
-<td align="right"><p>Welcome <s:property value="%{#session.user.contact.firstName}"/> (<s:property value="%{#session.user.role}"/>) !</p></td><td><p>|</p></td><td align="right"><p><a href="logoff">Logoff</a></p></td><td><p>|</p></td><td><p>Last Login: <s:property value="%{#session.lastLoginDate}"/></p></td>
+<td align="right"><p>Welcome <s:property value="%{#session.user.contact.firstName}"/> <s:property value="%{#session.user.contact.lastName}"/> (<s:property value="%{#session.user.role}"/>) !</p></td><td><p>|</p></td><td align="right"><p><a href="logoff">Logoff</a></p></td><td><p>|</p></td><td><p>Last Login: <s:property value="%{#session.lastLoginDate}"/></p></td>
 </tr>
 </table>
 </header>
